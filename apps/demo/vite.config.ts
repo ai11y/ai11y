@@ -10,7 +10,17 @@ function docsPlugin() {
 		name: "docs-dev-server",
 		configureServer(server: {
 			middlewares: {
-				use: (fn: (req: any, res: any, next: () => void) => void) => void;
+				use: (
+					fn: (
+						req: { url?: string; method?: string },
+						res: {
+							setHeader: (k: string, v: string) => void;
+							end: (body?: string) => void;
+							statusCode: number;
+						},
+						next: () => void,
+					) => void,
+				) => void;
 			};
 			config: { publicDir: string };
 		}) {

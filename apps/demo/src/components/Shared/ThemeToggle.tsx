@@ -71,7 +71,9 @@ export function ThemeToggle(
 					stroke="currentColor"
 					viewBox="0 0 24 24"
 					xmlns="http://www.w3.org/2000/svg"
+					aria-hidden
 				>
+					<title>Moon</title>
 					<path
 						strokeLinecap="round"
 						strokeLinejoin="round"
@@ -86,7 +88,9 @@ export function ThemeToggle(
 					stroke="currentColor"
 					viewBox="0 0 24 24"
 					xmlns="http://www.w3.org/2000/svg"
+					aria-hidden
 				>
+					<title>Sun</title>
 					<path
 						strokeLinecap="round"
 						strokeLinejoin="round"

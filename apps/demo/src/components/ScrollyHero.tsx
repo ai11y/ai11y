@@ -1,9 +1,9 @@
+import type { Instruction } from "@ai11y/core";
 import {
 	type AgentAdapterConfig,
 	type LLMAgentConfig,
 	plan,
 } from "@ai11y/core";
-import type { Instruction } from "@ai11y/core";
 import { useAi11yContext, useChat } from "@ai11y/react";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useContextDrawer } from "../context/ContextDrawerContext";
@@ -203,7 +203,9 @@ export function ScrollyHero({ onSuggestionReady }: ScrollyHeroProps = {}) {
 										stroke="currentColor"
 										viewBox="0 0 24 24"
 										xmlns="http://www.w3.org/2000/svg"
+										aria-hidden
 									>
+										<title>Open context</title>
 										<path
 											strokeLinecap="round"
 											strokeLinejoin="round"

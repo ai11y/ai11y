@@ -18,7 +18,7 @@ export function ChatInput({
 	disabled = false,
 	placeholder = "Ask something...",
 	inputRef,
-	autoFocus,
+	autoFocus: _autoFocus,
 }: ChatInputProps) {
 	return (
 		<form className="px-3 py-2.5 border-t border-border/50" onSubmit={onSubmit}>
@@ -50,7 +50,9 @@ export function ChatInput({
 						strokeWidth="2"
 						strokeLinecap="round"
 						strokeLinejoin="round"
+						aria-hidden
 					>
+						<title>Send</title>
 						<line x1="22" y1="2" x2="11" y2="13" />
 						<polygon points="22 2 15 22 11 13 2 9 22 2" />
 					</svg>

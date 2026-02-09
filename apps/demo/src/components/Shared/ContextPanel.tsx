@@ -7,8 +7,7 @@ interface ContextPanelProps {
 }
 
 export function ContextPanel({ isOpen, onOpenChange }: ContextPanelProps) {
-	const { events, describe, currentRoute, state, lastError } =
-		useAi11yContext();
+	const { events, describe, state, lastError } = useAi11yContext();
 	const [context, setContext] = useState(() => describe());
 
 	useEffect(() => {
@@ -63,7 +62,9 @@ export function ContextPanel({ isOpen, onOpenChange }: ContextPanelProps) {
 						stroke="currentColor"
 						viewBox="0 0 24 24"
 						xmlns="http://www.w3.org/2000/svg"
+						aria-hidden
 					>
+						<title>Close</title>
 						<path
 							strokeLinecap="round"
 							strokeLinejoin="round"
