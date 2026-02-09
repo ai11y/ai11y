@@ -15,8 +15,7 @@
 	},
 	"sideEffects": false,
 	"dependencies": {
-		"@ai11y/core": "workspace:*",
-		"@ai11y/ui": "workspace:*"
+		"@ai11y/core": "workspace:*"
 	},
 	"peerDependencies": {
 		"react": "19.2.3",

@@ -147,9 +147,6 @@ importers:
       '@ai11y/core':
         specifier: workspace:*
         version: link:../core
-      '@ai11y/ui':
-        specifier: workspace:*
-        version: link:../ui
     devDependencies:
       '@tsconfig/create-react-app':
         specifier: 2.0.10
