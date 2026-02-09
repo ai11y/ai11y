@@ -6,9 +6,12 @@ interface ContextPanelProps {
 	onOpenChange: (open: boolean) => void;
 }
 
+type SidebarTab = "ui-context" | "events";
+
 export function ContextPanel({ isOpen, onOpenChange }: ContextPanelProps) {
 	const { events, describe, state, lastError } = useAi11yContext();
 	const [context, setContext] = useState(() => describe());
+	const [activeTab, setActiveTab] = useState<SidebarTab>("ui-context");
 
 	useEffect(() => {
 		const updateContext = () => {
@@ -48,41 +51,81 @@ export function ContextPanel({ isOpen, onOpenChange }: ContextPanelProps) {
 				isOpen ? "translate-x-0" : "translate-x-full"
 			}`}
 		>
-			<div className="flex items-center justify-between px-4 py-3 border-b border-border min-h-[57px]">
-				<h2 className="text-sm font-semibold text-foreground">ai11y Context</h2>
-				<button
-					type="button"
-					onClick={() => onOpenChange(false)}
-					className="p-1 rounded hover:bg-accent transition-colors"
-					aria-label="Close ai11y Context"
-				>
-					<svg
-						className="h-4 w-4 text-muted-foreground"
-						fill="none"
-						stroke="currentColor"
-						viewBox="0 0 24 24"
-						xmlns="http://www.w3.org/2000/svg"
-						aria-hidden
+			<div className="flex-shrink-0 border-b border-border">
+				<div className="flex items-center justify-between px-4 py-2.5">
+					<h2 className="text-sm font-semibold text-foreground">
+						What your agent sees
+					</h2>
+					<button
+						type="button"
+						onClick={() => onOpenChange(false)}
+						className="p-1 rounded hover:bg-accent transition-colors -mr-1"
+						aria-label="Close context panel"
 					>
-						<title>Close</title>
-						<path
-							strokeLinecap="round"
-							strokeLinejoin="round"
-							strokeWidth={2}
-							d="M6 18L18 6M6 6l12 12"
-						/>
-					</svg>
-				</button>
+						<svg
+							className="h-4 w-4 text-muted-foreground"
+							fill="none"
+							stroke="currentColor"
+							viewBox="0 0 24 24"
+							xmlns="http://www.w3.org/2000/svg"
+							aria-hidden
+						>
+							<title>Close</title>
+							<path
+								strokeLinecap="round"
+								strokeLinejoin="round"
+								strokeWidth={2}
+								d="M6 18L18 6M6 6l12 12"
+							/>
+						</svg>
+					</button>
+				</div>
+				<div
+					className="flex px-0 pb-0"
+					role="tablist"
+					aria-label="Sidebar panels"
+				>
+					<button
+						type="button"
+						role="tab"
+						aria-selected={activeTab === "ui-context"}
+						aria-controls="sidebar-panel-ui-context"
+						id="tab-ui-context"
+						onClick={() => setActiveTab("ui-context")}
+						className={`flex-1 px-4 py-3 text-sm font-medium transition-colors ${
+							activeTab === "ui-context"
+								? "bg-muted/50 text-foreground"
+								: "text-muted-foreground hover:bg-muted/30 hover:text-foreground"
+						}`}
+					>
+						UI Context
+					</button>
+					<button
+						type="button"
+						role="tab"
+						aria-selected={activeTab === "events"}
+						aria-controls="sidebar-panel-events"
+						id="tab-events"
+						onClick={() => setActiveTab("events")}
+						className={`flex-1 px-4 py-3 text-sm font-medium transition-colors ${
+							activeTab === "events"
+								? "bg-muted/50 text-foreground"
+								: "text-muted-foreground hover:bg-muted/30 hover:text-foreground"
+						}`}
+					>
+						Events ({events.length})
+					</button>
+				</div>
 			</div>
 
 			<div className="flex-1 flex flex-col overflow-hidden min-h-0">
-				<div className="flex-shrink-0 flex flex-col border-b border-border max-h-[50%] min-h-0">
-					<div className="p-3 border-b border-border">
-						<h3 className="text-xs font-semibold text-foreground uppercase tracking-wide">
-							Events ({events.length})
-						</h3>
-					</div>
-					<div className="flex-1 overflow-y-auto scrollbar-thin p-3">
+				{activeTab === "events" && (
+					<div
+						id="sidebar-panel-events"
+						role="tabpanel"
+						aria-labelledby="tab-events"
+						className="flex-1 overflow-y-auto scrollbar-thin p-4"
+					>
 						<div className="space-y-2">
 							{events.length === 0 ? (
 								<p className="text-xs text-muted-foreground">No events yet</p>
@@ -113,15 +156,15 @@ export function ContextPanel({ isOpen, onOpenChange }: ContextPanelProps) {
 							)}
 						</div>
 					</div>
-				</div>
+				)}
 
-				<div className="flex-1 flex flex-col overflow-hidden min-h-0">
-					<div className="p-3 border-b border-border">
-						<h3 className="text-xs font-semibold text-foreground uppercase tracking-wide">
-							UI Context
-						</h3>
-					</div>
-					<div className="flex-1 overflow-y-auto scrollbar-thin p-3">
+				{activeTab === "ui-context" && (
+					<div
+						id="sidebar-panel-ui-context"
+						role="tabpanel"
+						aria-labelledby="tab-ui-context"
+						className="flex-1 overflow-y-auto scrollbar-thin p-4"
+					>
 						<div className="space-y-3 text-xs">
 							<div>
 								<div className="text-muted-foreground mb-1">Route</div>
@@ -235,7 +278,7 @@ export function ContextPanel({ isOpen, onOpenChange }: ContextPanelProps) {
 							)}
 						</div>
 					</div>
-				</div>
+				)}
 			</div>
 		</div>
 	);
