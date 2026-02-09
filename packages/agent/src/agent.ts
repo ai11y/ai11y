@@ -1,3 +1,4 @@
+import type { AgentRequest, AgentResponse, Instruction } from "@ai11y/core";
 import { DynamicStructuredTool } from "@langchain/core/tools";
 import { z } from "zod";
 import { createLLM } from "./llm-provider.js";
@@ -5,7 +6,6 @@ import {
 	createDefaultToolRegistry,
 	type ToolRegistry,
 } from "./tool-registry.js";
-import type { AgentRequest, AgentResponse, Instruction } from "@ai11y/core";
 import type { ServerConfig } from "./types.js";
 
 /**
@@ -206,16 +206,15 @@ interface LangChainResponseWithTools {
 function hasToolCalls(
 	response: unknown,
 ): response is LangChainResponseWithTools {
+	const kwargs = (response as LangChainResponseWithTools).additional_kwargs;
 	return (
 		typeof response === "object" &&
 		response !== null &&
 		("tool_calls" in response ||
 			("additional_kwargs" in response &&
-				typeof (response as LangChainResponseWithTools).additional_kwargs ===
-					"object" &&
-				(response as LangChainResponseWithTools).additional_kwargs !== null &&
-				"tool_calls" in
-					(response as LangChainResponseWithTools).additional_kwargs!))
+				typeof kwargs === "object" &&
+				kwargs !== null &&
+				"tool_calls" in kwargs))
 	);
 }
 

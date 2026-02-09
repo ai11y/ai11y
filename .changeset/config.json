@@ -12,9 +12,5 @@
 	"access": "public",
 	"baseBranch": "main",
 	"updateInternalDependencies": "patch",
-	"ignore": [
-		"ai11y-demo",
-		"ai11y-server-app",
-		"@ai11y/ui"
-	]
+	"ignore": ["ai11y-demo", "ai11y-server-app", "@ai11y/ui"]
 }

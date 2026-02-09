@@ -1,3 +1,4 @@
+import type { AgentRequest } from "@ai11y/core";
 import type {
 	FastifyInstance,
 	FastifyPluginOptions,
@@ -9,7 +10,6 @@ import {
 	createDefaultToolRegistry,
 	type ToolRegistry,
 } from "./tool-registry.js";
-import type { AgentRequest } from "@ai11y/core";
 import type { ServerConfig } from "./types.js";
 
 interface FastifyAi11yOptions extends FastifyPluginOptions {

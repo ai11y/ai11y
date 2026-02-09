@@ -1,7 +1,7 @@
 # @ai11y/react
 
-Thin React wrapper for ai11y. Uses the same **describe → plan → act** flow:
-wrap your app in `Ai11yProvider`, mark elements with `Marker`, and use
+Thin React wrapper for ai11y. Uses the same **describe → plan → act** flow: wrap
+your app in `Ai11yProvider`, mark elements with `Marker`, and use
 `useAi11yContext()` for `describe` and `act`; call `plan()` from `@ai11y/core`.
 
 ## Installation
@@ -12,8 +12,8 @@ pnpm add @ai11y/react @ai11y/core
 
 ## Usage
 
-Wrap your app in `Ai11yProvider` and use `Marker` so elements are registered
-for `describe()`. Get `describe` and `act` from `useAi11yContext()` and call
+Wrap your app in `Ai11yProvider` and use `Marker` so elements are registered for
+`describe()`. Get `describe` and `act` from `useAi11yContext()` and call
 `plan()` from `@ai11y/core`:
 
 ```tsx

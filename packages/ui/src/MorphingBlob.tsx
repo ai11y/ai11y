@@ -59,7 +59,9 @@ export function MorphingBlob({
 			<svg
 				className="absolute inset-0 size-full drop-shadow-md"
 				viewBox={viewBox}
+				aria-hidden
 			>
+				<title>Decorative background</title>
 				<path fill={`url(#${gradientId})`}>
 					<animate
 						attributeName="d"

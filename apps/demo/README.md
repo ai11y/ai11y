@@ -1,7 +1,7 @@
 # Demo - ai11y Demo App
 
-This demo shows **describe → plan → act** in action. The core is JavaScript;
-the UI uses the React wrapper (Provider + Marker).
+This demo shows **describe → plan → act** in action. The core is JavaScript; the
+UI uses the React wrapper (Provider + Marker).
 
 ## Quick Start
 

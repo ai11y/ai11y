@@ -10,7 +10,7 @@ interface CustomHighlightWrapperProps {
  * This demonstrates the new component-based highlighting approach
  */
 export function CustomHighlightWrapper({
-	markerId,
+	markerId: _markerId,
 	children,
 }: CustomHighlightWrapperProps) {
 	return (

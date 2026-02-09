@@ -17,7 +17,9 @@ export function AssistTrigger({ className = "" }: AssistTriggerProps) {
 					viewBox="0 0 24 24"
 					fill="none"
 					className="text-background relative z-10"
+					aria-hidden
 				>
+					<title>Assist</title>
 					{/* Cute face - eyes */}
 					<circle cx="8" cy="10" r="2" fill="currentColor" />
 					<circle cx="16" cy="10" r="2" fill="currentColor" />
