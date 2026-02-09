@@ -20,7 +20,7 @@
 	},
 	"dependencies": {
 		"@ai11y/core": "workspace:*",
-		"@langchain/core": "1.1.7",
+		"@langchain/core": "1.1.8",
 		"@langchain/openai": "1.2.0",
 		"zod": "4.2.1"
 	},
