@@ -414,7 +414,9 @@ export function ScrollyHero({ onSuggestionReady }: ScrollyHeroProps = {}) {
 									? "bg-primary/10 text-primary"
 									: "text-muted-foreground hover:text-foreground hover:bg-muted/50"
 							}`}
-							aria-label={showMessages ? "Collapse messages" : "Expand messages"}
+							aria-label={
+								showMessages ? "Collapse messages" : "Expand messages"
+							}
 						>
 							<ChevronDown
 								size={18}
