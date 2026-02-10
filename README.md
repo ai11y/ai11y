@@ -22,8 +22,6 @@ ai11y exposes this structure so agents can operate existing UIs.
 **Plan** — get instructions from the agent.  
 **Act** — perform actions on the UI.
 
-**Plain JavaScript:**
-
 ```ts
 import { createClient, plan } from "@ai11y/core";
 
@@ -37,10 +35,6 @@ for (const instruction of instructions ?? []) {
   client.act(instruction);
 }
 ```
-
-Optional helpers: `track(event, payload?)` and `reportError(error, meta?)` add
-context for the agent. You can also call DOM helpers from `@ai11y/core` (e.g.
-`clickMarker`, `highlightMarker`) directly if you prefer.
 
 ## Usage
 
@@ -80,7 +74,7 @@ function Chat() {
 }
 ```
 
-Mark elements so your agent can see them:
+Use marker component to annotate your components:
 
 ```tsx
 <Marker id="save_btn" label="Save" intent="Save the document">
@@ -102,5 +96,7 @@ to a built-in rule-based planner.
   enrich UI context.
 - **Linter rule** — Enforce or suggest `data-ai-*` / `Marker` usage in
   codebases.
+- **AI-assisted error handling and recovery** — Detect failures, suggest fixes,
+  and automatically retry or roll back actions when possible.
 - **Client-side LLM integration and examples** — Run the plan step in the
   browser with local or hosted models.
