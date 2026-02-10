@@ -11,21 +11,6 @@ The API is **describe → plan → act**: capture UI context, get instructions f
 an agent, execute them on the page. The core is JavaScript; React is a thin
 wrapper.
 
-## Architecture
-
-**Packages:**
-
-- **`packages/core/`** — Framework-agnostic core. Markers, `createClient`,
-  `plan()`, and DOM actions. No React.
-- **`packages/react/`** — Thin wrapper: `Ai11yProvider` (wraps `createClient`),
-  `Marker` (adds data attributes so the DOM can be described).
-- **`packages/agent/`** — Server-side LLM and tools for the plan step.
-
-**Apps:**
-
-- **`apps/demo/`** — Demo app (see [apps/demo/README.md](apps/demo/README.md)).
-- **`apps/server/`** — Example server using `@ai11y/agent`.
-
 ## Describe → Plan → Act
 
 The world runs on user interfaces. Interfaces solve problems by making state,
@@ -111,10 +96,11 @@ client sends `describe()` output and user input; the server returns
 `{ reply, instructions }`. Without a configured endpoint, the client falls back
 to a built-in rule-based planner.
 
-## Commands
+## Roadmap
 
-```bash
-pnpm install
-pnpm build    # build all
-pnpm watch    # watch mode
-```
+- **Native ARIA support (optional)** — Use ARIA attributes where present to
+  enrich UI context.
+- **Linter rule** — Enforce or suggest `data-ai-*` / `Marker` usage in
+  codebases.
+- **Client-side LLM integration and examples** — Run the plan step in the
+  browser with local or hosted models.
