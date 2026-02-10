@@ -23,13 +23,10 @@ export function ScrollyHero({ onSuggestionReady }: ScrollyHeroProps = {}) {
 	const { addHighlight } = useDemoUi();
 	const { isOpen: isContextOpen, setIsOpen: setContextOpen } =
 		useContextDrawer();
-	const [isCompact, setIsCompact] = useState(() => {
-		if (typeof window === "undefined") return false;
-		const scrollY = window.scrollY;
-		const threshold = window.innerHeight * 0.6;
-		return scrollY > threshold;
-	});
+	const [isCompact, setIsCompact] = useState(false);
 	const [showMessages, setShowMessages] = useState(false);
+	const [hasNewMessages, setHasNewMessages] = useState(false);
+	const lastSeenCountRef = useRef(0);
 	const heroRef = useRef<HTMLElement>(null);
 	const [barBottom, setBarBottom] = useState<number | null>(null);
 
@@ -146,8 +143,18 @@ export function ScrollyHero({ onSuggestionReady }: ScrollyHeroProps = {}) {
 	});
 
 	useEffect(() => {
-		if (showMessages) scrollMessagesToBottom();
-	}, [showMessages, scrollMessagesToBottom]);
+		if (showMessages) {
+			scrollMessagesToBottom();
+			setHasNewMessages(false);
+			lastSeenCountRef.current = messages.length;
+		}
+	}, [showMessages, scrollMessagesToBottom, messages.length]);
+
+	useEffect(() => {
+		if (!showMessages && messages.length > lastSeenCountRef.current) {
+			setHasNewMessages(true);
+		}
+	}, [messages.length, showMessages]);
 
 	const recentMessages = messages.slice(-4);
 	const lastMessage = messages[messages.length - 1];
@@ -168,7 +175,7 @@ export function ScrollyHero({ onSuggestionReady }: ScrollyHeroProps = {}) {
 		<>
 			<div
 				className={`fixed top-0 left-0 z-[60] transition-all duration-300 ${
-					isContextOpen ? "right-96" : "right-0"
+					isContextOpen ? "right-80" : "right-0"
 				}`}
 			>
 				<div className="max-w-screen-xl mx-auto px-4 py-3 flex items-center justify-end min-h-[57px] gap-3">
@@ -191,7 +198,7 @@ export function ScrollyHero({ onSuggestionReady }: ScrollyHeroProps = {}) {
 								<button
 									type="button"
 									onClick={() => setContextOpen(true)}
-									className="inline-flex items-center gap-2 px-3 py-2 rounded-md border border-border bg-background hover:bg-accent hover:text-accent-foreground transition-colors text-sm font-medium shadow-sm"
+									className="hidden md:inline-flex items-center gap-2 px-3 py-2 rounded-md border border-border bg-background hover:bg-accent hover:text-accent-foreground transition-colors text-sm font-medium shadow-sm"
 									aria-label="Open ai11y Context"
 								>
 									<FileText className="h-4 w-4" aria-hidden />
@@ -205,7 +212,7 @@ export function ScrollyHero({ onSuggestionReady }: ScrollyHeroProps = {}) {
 
 			<header
 				className={`fixed top-0 left-0 z-50 transition-all duration-300 ${
-					isContextOpen ? "right-96" : "right-0"
+					isContextOpen ? "right-80" : "right-0"
 				} ${
 					isCompact
 						? "opacity-100 translate-y-0"
@@ -240,7 +247,7 @@ export function ScrollyHero({ onSuggestionReady }: ScrollyHeroProps = {}) {
 								label="ai11y"
 								intent="The main hero title - A structured UI context layer for AI agents"
 							>
-								<h1 className="text-5xl md:text-6xl font-bold mb-4 bg-gradient-to-r from-primary via-primary/80 to-primary/60 bg-clip-text text-transparent tracking-tight text-center">
+								<h1 className="text-6xl font-bold mb-4 bg-gradient-to-r from-primary via-primary/80 to-primary/60 bg-clip-text text-transparent tracking-tight text-center">
 									ai11y
 								</h1>
 							</Marker>
@@ -338,7 +345,7 @@ export function ScrollyHero({ onSuggestionReady }: ScrollyHeroProps = {}) {
 			<div
 				className={`fixed z-50 max-w-xl px-4 transition-all duration-300 ${
 					isContextOpen
-						? "left-[calc(50%-12rem)] -translate-x-1/2"
+						? "left-[calc(50%-10rem)] -translate-x-1/2"
 						: "left-1/2 -translate-x-1/2"
 				} ${
 					isCompact
@@ -396,17 +403,24 @@ export function ScrollyHero({ onSuggestionReady }: ScrollyHeroProps = {}) {
 						<button
 							type="button"
 							onClick={() => setShowMessages((v) => !v)}
-							className={`p-2 rounded-sm transition-colors ${
+							className={`relative p-2 rounded-sm transition-colors ${
 								showMessages
 									? "bg-primary/10 text-primary"
 									: "text-muted-foreground hover:text-foreground hover:bg-muted/50"
 							}`}
+							aria-label={showMessages ? "Collapse messages" : "Expand messages"}
 						>
 							<ChevronDown
 								size={18}
 								className={`transition-transform ${showMessages ? "rotate-180" : ""}`}
 								aria-hidden
 							/>
+							{hasNewMessages && (
+								<span
+									className="absolute top-0.5 right-0.5 z-10 w-2.5 h-2.5 rounded-full bg-primary ring-2 ring-background shrink-0"
+									aria-hidden
+								/>
+							)}
 						</button>
 
 						{!showMessages && lastMessage && (
@@ -423,7 +437,7 @@ export function ScrollyHero({ onSuggestionReady }: ScrollyHeroProps = {}) {
 							onChange={(e) => setInput(e.target.value)}
 							placeholder="Ask anything..."
 							disabled={isProcessing}
-							className="flex-1 px-4 py-2.5 text-sm rounded-xl border border-border/50 bg-muted/30 text-foreground placeholder:text-muted-foreground/60 focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary/50 disabled:opacity-50 transition-all"
+							className="flex-1 px-4 py-2.5 text-base rounded-xl border border-border/50 bg-muted/30 text-foreground placeholder:text-muted-foreground/60 focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary/50 disabled:opacity-50 transition-all"
 						/>
 
 						<button

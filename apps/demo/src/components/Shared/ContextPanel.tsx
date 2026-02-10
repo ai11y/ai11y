@@ -55,13 +55,13 @@ export function ContextPanel({ isOpen, onOpenChange }: ContextPanelProps) {
 
 	return (
 		<div
-			className={`fixed top-0 right-0 h-full w-96 bg-background border-l border-border shadow-lg flex flex-col transform transition-transform duration-300 ease-in-out z-40 ${
+			className={`fixed top-0 right-0 h-full w-80 bg-background border-l border-border shadow-lg flex flex-col transform transition-transform duration-300 ease-in-out z-40 ${
 				isOpen ? "translate-x-0" : "translate-x-full"
 			}`}
 		>
 			<div className="flex-shrink-0 flex items-center justify-between border-b border-border px-4 py-2.5">
 				<h2 className="text-sm font-semibold text-foreground">
-					What your agent sees
+					ai11y describe
 				</h2>
 				<button
 					type="button"

@@ -25,7 +25,7 @@ function AppLayoutContent({ children }: AppLayoutProps) {
 			<ContextPanel isOpen={isOpen} onOpenChange={setIsOpen} />
 			<div
 				className={`min-h-screen transition-all duration-300 ease-in-out ${
-					isOpen ? "mr-96 w-[calc(100%-24rem)]" : "mr-0 w-full"
+					isOpen ? "mr-80 w-[calc(100%-20rem)]" : "mr-0 w-full"
 				}`}
 			>
 				{children}
