@@ -6,7 +6,7 @@ import {
 import { useAi11yContext, useChat } from "@ai11y/react";
 import { AssistPanelPopover, ChatInput, MessageBubble } from "@ai11y/ui";
 import type React from "react";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useDemoUi } from "@/context/DemoUiContext";
 
 export function AssistPanel() {
@@ -18,6 +18,8 @@ export function AssistPanel() {
 		clearPendingMessage,
 		addHighlight,
 	} = useDemoUi();
+	const [hasNewMessages, setHasNewMessages] = useState(false);
+	const lastSeenCountRef = useRef(0);
 
 	const handleSubmit = async (
 		message: string,
@@ -101,7 +103,21 @@ export function AssistPanel() {
 		if (isPanelOpen && inputRef.current) {
 			inputRef.current.focus();
 		}
-	}, [isPanelOpen]);
+		if (isPanelOpen) {
+			setHasNewMessages(false);
+			lastSeenCountRef.current = messages.length;
+		}
+	}, [isPanelOpen, messages.length]);
+
+	useEffect(() => {
+		if (
+			!isPanelOpen &&
+			messages.length > lastSeenCountRef.current &&
+			lastSeenCountRef.current > 0
+		) {
+			setHasNewMessages(true);
+		}
+	}, [messages.length, isPanelOpen]);
 
 	useEffect(() => {
 		if (!pendingMessage || !isPanelOpen) return;
@@ -121,6 +137,7 @@ export function AssistPanel() {
 			isOpen={isPanelOpen}
 			onOpenChange={setIsPanelOpen}
 			onClose={() => setIsPanelOpen(false)}
+			hasNewMessages={hasNewMessages}
 		>
 			<div className="flex-1 overflow-y-auto px-3 py-3 flex flex-col gap-2">
 				{messages.map((msg, index) => (

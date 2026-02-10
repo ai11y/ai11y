@@ -31,7 +31,7 @@ export function ChatInput({
 					onChange={(e) => onChange(e.target.value)}
 					placeholder={placeholder}
 					disabled={disabled}
-					className="flex-1 px-2.5 py-1.5 border-none rounded-xs text-[13px] outline-none bg-muted/50 text-foreground placeholder:text-muted-foreground/60 focus:bg-muted disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+					className="flex-1 px-2.5 py-1.5 border-none rounded-xs text-base outline-none bg-muted/50 text-foreground placeholder:text-muted-foreground/60 focus:bg-muted disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
 				/>
 				<Button
 					type="submit"

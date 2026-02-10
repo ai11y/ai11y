@@ -24,7 +24,7 @@ export function NavigationDemo({
 	) => {
 		e.preventDefault();
 		if (path !== pathname) {
-			router.push(path);
+			router.push(path, { scroll: false });
 		}
 	};
 

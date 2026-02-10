@@ -14,6 +14,8 @@ export interface AssistPanelPopoverProps {
 	children: React.ReactNode;
 	trigger?: React.ReactNode;
 	triggerClassName?: string;
+	/** When true, the default trigger shows a primary-colored dot for new messages */
+	hasNewMessages?: boolean;
 }
 
 export function AssistPanelPopover({
@@ -23,6 +25,7 @@ export function AssistPanelPopover({
 	children,
 	trigger,
 	triggerClassName = "fixed bottom-4 right-4 flex items-center justify-center border-none select-none focus-visible:outline focus-visible:outline-2 focus-visible:-outline-offset-1 focus-visible:outline-ring z-[10000]",
+	hasNewMessages = false,
 }: AssistPanelPopoverProps) {
 	// Handle open change, ignoring outside press events so users can interact with the page
 	const handleOpenChange = useCallback(
@@ -39,7 +42,7 @@ export function AssistPanelPopover({
 	return (
 		<Popover.Root open={isOpen} onOpenChange={handleOpenChange} modal={false}>
 			<Popover.Trigger className={triggerClassName} aria-label="Open AI Agent">
-				{trigger ?? <AssistTrigger />}
+				{trigger ?? <AssistTrigger hasNewMessages={hasNewMessages} />}
 			</Popover.Trigger>
 
 			<Popover.Portal className="z-200">
@@ -49,7 +52,7 @@ export function AssistPanelPopover({
 					sideOffset={8}
 					className="z-200"
 				>
-					<Popover.Popup className="relative origin-[var(--transform-origin)] w-[320px] h-[420px] max-h-[calc(100vh-80px)] rounded-sm bg-popover/70 backdrop-blur-2xl backdrop-saturate-150 text-popover-foreground shadow-xl shadow-black/10 border border-white/10 transition-[transform,scale,opacity] duration-200 ease-out data-[ending-style]:scale-95 data-[ending-style]:opacity-0 data-[starting-style]:scale-95 data-[starting-style]:opacity-0 flex flex-col z-200 overflow-hidden">
+					<Popover.Popup className="origin-[var(--transform-origin)] fixed inset-0 w-screen h-[100dvh] max-h-none rounded-none md:relative md:inset-auto md:w-[min(320px,max(0px,calc((100vw-20rem-2rem)*0.85)))] md:h-[420px] md:max-h-[calc(100vh-80px)] md:rounded-sm bg-popover/70 backdrop-blur-2xl backdrop-saturate-150 text-popover-foreground shadow-xl shadow-black/10 border border-white/10 transition-[transform,scale,opacity] duration-200 ease-out data-[ending-style]:scale-95 data-[ending-style]:opacity-0 data-[starting-style]:scale-95 data-[starting-style]:opacity-0 flex flex-col z-200 overflow-hidden">
 						{onClose && (
 							<button
 								type="button"

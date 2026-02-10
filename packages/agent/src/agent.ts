@@ -267,9 +267,9 @@ export async function runAgent(
 		if (isLink && isInView) {
 			markerMatchGuidance = `\n\n⚠️ Match found: "${marker.label}" (${marker.id}) is a visible link. Use 'click' tool.`;
 		} else if (isLink && !isInView) {
-			markerMatchGuidance = `\n\n🚨 Match found: "${marker.label}" (${marker.id}) is a link NOT in view. DO NOT use 'click' - use 'scroll' tool instead.`;
+			markerMatchGuidance = `\n\n🚨 Match found: "${marker.label}" (${marker.id}) is a link NOT in view. You MUST call BOTH 'scroll' and 'click' (in that order)—two tool calls. Do not call only scroll.`;
 		} else if (!isInView) {
-			markerMatchGuidance = `\n\n🚨 Match found: "${marker.label}" (${marker.id}) is NOT in view. DO NOT use 'click' - use 'scroll' tool instead.`;
+			markerMatchGuidance = `\n\n🚨 Match found: "${marker.label}" (${marker.id}) is NOT in view. You MUST call BOTH 'scroll' and 'click' (or the appropriate action) in that order—two tool calls. Do not call only scroll.`;
 		} else {
 			markerMatchGuidance = `\n\nMatch found: "${marker.label}" (${marker.id}) is an element. Use 'scroll' tool.`;
 		}
@@ -289,11 +289,14 @@ Reading marker values:
 Navigation rules:
 - "navigate to [element]" = scroll to that element (use 'scroll' tool)
 - "navigate to [route]" = route navigation (use 'navigate' tool with route path)
-- CRITICAL: Check inViewMarkerIds before using 'click'. NEVER use 'click' if markerId is NOT in inViewMarkerIds - use 'scroll' instead.
 - If marker matches and is in inViewMarkerIds + elementType='a' → use 'click'
-- If marker matches but NOT in inViewMarkerIds → use 'scroll' (DO NOT use 'click')
 - If no marker matches → use 'navigate' with route path
 - For affirmative responses after discussing a marker, interact with that marker using the appropriate tool.
+
+Scroll-then-act rule (CRITICAL):
+- When the user wants to INTERACT with an element (click, press, increment, submit, fill, etc.) and the target marker is NOT in inViewMarkerIds: you MUST emit TWO tool calls in order—(1) 'scroll' to that marker, (2) the action ('click', 'fillInput', etc.). Emitting only 'scroll' is WRONG; the user asked for an action, so you must call both scroll and the action.
+- Prefer the specific interactive element for the action (e.g. the button click_demo_increment for "increment counter"), not a parent section (e.g. slide_click). Emit one scroll to the exact target element, then the action.
+- If the user only wants to see or navigate to an element (no click/fill), use a single 'scroll' to that element.
 
 Relative scrolling rules (for "scroll to next" or "scroll to previous"):
 - Markers are listed in document order (top to bottom) in the markers array
