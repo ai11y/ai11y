@@ -13,10 +13,23 @@ const geistMono = Geist_Mono({
 	variable: "--font-geist-mono",
 });
 
+const title = "ai11y — A structured UI context layer for AI agents";
+const description =
+	"A structured UI context layer for AI agents to navigate, interact with, and understand web applications.";
+
 export const metadata: Metadata = {
-	title: "ai11y - A structured UI context layer for AI agents",
-	description:
-		"A structured UI context layer for AI agents to navigate, interact with, and understand web applications",
+	title,
+	description,
+	openGraph: {
+		title,
+		description,
+		type: "website",
+	},
+	twitter: {
+		card: "summary_large_image",
+		title,
+		description,
+	},
 };
 
 export default function RootLayout({

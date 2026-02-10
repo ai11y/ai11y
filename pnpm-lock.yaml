@@ -42,6 +42,9 @@ importers:
       '@ai11y/ui':
         specifier: workspace:*
         version: link:../../packages/ui
+      '@fontsource/geist':
+        specifier: 5.1.0
+        version: 5.1.0
       '@tailwindcss/postcss':
         specifier: 4.1.18
         version: 4.1.18
@@ -600,6 +603,9 @@ packages:
 
   '@floating-ui/utils@0.2.10':
     resolution: {integrity: sha512-aGTxbpbg8/b5JfU1HXSrbH3wXZuLPJcNEcZQFMxLs3oSzgtVu6nFPkbbGGUvBcUjKV2YyB9Wxxabo+HEH9tcRQ==}
+
+  '@fontsource/geist@5.1.0':
+    resolution: {integrity: sha512-QDs4vIPk9Owx08q4PoDLHdBZ9hgA7gYeQ5xSmlhYQhPmi+6JJAeML///yqxDsm2/3tn+uPGS2QMR9GE7HQKrFw==}
 
   '@gerrit0/mini-shiki@3.22.0':
     resolution: {integrity: sha512-jMpciqEVUBKE1QwU64S4saNMzpsSza6diNCk4MWAeCxO2+LFi2FIFmL2S0VDLzEJCxuvCbU783xi8Hp/gkM5CQ==}
@@ -2706,6 +2712,8 @@ snapshots:
       react-dom: 19.2.3(react@19.2.3)
 
   '@floating-ui/utils@0.2.10': {}
+
+  '@fontsource/geist@5.1.0': {}
 
   '@gerrit0/mini-shiki@3.22.0':
     dependencies:

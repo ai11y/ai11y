@@ -8,6 +8,7 @@
 		"start": "next start"
 	},
 	"dependencies": {
+		"@fontsource/geist": "5.1.0",
 		"@ai11y/agent": "workspace:*",
 		"@ai11y/core": "workspace:*",
 		"@ai11y/react": "workspace:*",
