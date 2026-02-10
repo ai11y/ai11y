@@ -6,3 +6,4 @@ dist
 .turbo
 .cursor
 .agents
+.DS_Store

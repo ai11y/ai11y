@@ -42,6 +42,27 @@ export type { Message, MessageListProps } from "./MessageList.js";
 export { MessageList } from "./MessageList.js";
 export type { MorphingBlobProps } from "./MorphingBlob.js";
 export { MorphingBlob } from "./MorphingBlob.js";
+export type {
+	SelectContentProps,
+	SelectItemProps,
+	SelectProps,
+	SelectTriggerProps,
+	SelectValueProps,
+} from "./Select.js";
+export {
+	Select,
+	SelectContent,
+	SelectItem,
+	SelectTrigger,
+	SelectValue,
+} from "./Select.js";
+export type {
+	TabsListProps,
+	TabsPanelProps,
+	TabsProps,
+	TabsTriggerProps,
+} from "./Tabs.js";
+export { Tabs, TabsList, TabsPanel, TabsTrigger } from "./Tabs.js";
 export type { TextProps } from "./Text.js";
 export { Text, textVariants } from "./Text.js";
 export type { TextareaProps } from "./Textarea.js";

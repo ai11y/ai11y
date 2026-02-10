@@ -5,11 +5,13 @@ import {
 	plan,
 } from "@ai11y/core";
 import { useAi11yContext, useChat } from "@ai11y/react";
+import { ChevronDown, FileText, Send } from "lucide-react";
+import Link from "next/link";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { useContextDrawer } from "../context/ContextDrawerContext";
-import { useDemoUi } from "../context/DemoUiContext";
+import { useContextDrawer } from "@/context/ContextDrawerContext";
+import { useDemoUi } from "@/context/DemoUiContext";
 import { MarkerWithHighlight as Marker } from "./Shared/MarkerWithHighlight";
-import { ThemeToggle } from "./Shared/ThemeToggle";
+import { ThemeToggleButton } from "./Shared/ThemeToggleDynamic";
 import { SuggestionChip } from "./SuggestionChip";
 
 interface ScrollyHeroProps {
@@ -22,6 +24,7 @@ export function ScrollyHero({ onSuggestionReady }: ScrollyHeroProps = {}) {
 	const { isOpen: isContextOpen, setIsOpen: setContextOpen } =
 		useContextDrawer();
 	const [isCompact, setIsCompact] = useState(() => {
+		if (typeof window === "undefined") return false;
 		const scrollY = window.scrollY;
 		const threshold = window.innerHeight * 0.6;
 		return scrollY > threshold;
@@ -169,22 +172,16 @@ export function ScrollyHero({ onSuggestionReady }: ScrollyHeroProps = {}) {
 				}`}
 			>
 				<div className="max-w-screen-xl mx-auto px-4 py-3 flex items-center justify-end min-h-[57px] gap-3">
-					<a
+					<Link
 						href="/docs/"
 						target="_blank"
 						rel="noopener noreferrer"
 						className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors whitespace-nowrap"
 					>
 						Docs
-					</a>
+					</Link>
 					<div className="flex items-center gap-2">
-						<Marker
-							id="theme_toggle"
-							label="Theme Toggle"
-							intent="Toggle between light and dark theme"
-						>
-							<ThemeToggle />
-						</Marker>
+						<ThemeToggleButton />
 						{!isContextOpen && (
 							<Marker
 								id="context_panel_toggle"
@@ -197,22 +194,7 @@ export function ScrollyHero({ onSuggestionReady }: ScrollyHeroProps = {}) {
 									className="inline-flex items-center gap-2 px-3 py-2 rounded-md border border-border bg-background hover:bg-accent hover:text-accent-foreground transition-colors text-sm font-medium shadow-sm"
 									aria-label="Open ai11y Context"
 								>
-									<svg
-										className="h-4 w-4"
-										fill="none"
-										stroke="currentColor"
-										viewBox="0 0 24 24"
-										xmlns="http://www.w3.org/2000/svg"
-										aria-hidden
-									>
-										<title>Open context</title>
-										<path
-											strokeLinecap="round"
-											strokeLinejoin="round"
-											strokeWidth={2}
-											d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
-										/>
-									</svg>
+									<FileText className="h-4 w-4" aria-hidden />
 									View Context
 								</button>
 							</Marker>
@@ -323,20 +305,7 @@ export function ScrollyHero({ onSuggestionReady }: ScrollyHeroProps = {}) {
 											: "opacity-30 cursor-not-allowed"
 									}`}
 								>
-									<svg
-										width="18"
-										height="18"
-										viewBox="0 0 24 24"
-										fill="none"
-										stroke="currentColor"
-										strokeWidth="2"
-										strokeLinecap="round"
-										strokeLinejoin="round"
-									>
-										<title>Send</title>
-										<line x1="22" y1="2" x2="11" y2="13" />
-										<polygon points="22 2 15 22 11 13 2 9 22 2" />
-									</svg>
+									<Send size={18} aria-hidden />
 								</button>
 							</form>
 
@@ -433,20 +402,11 @@ export function ScrollyHero({ onSuggestionReady }: ScrollyHeroProps = {}) {
 									: "text-muted-foreground hover:text-foreground hover:bg-muted/50"
 							}`}
 						>
-							<svg
-								width="18"
-								height="18"
-								viewBox="0 0 24 24"
-								fill="none"
-								stroke="currentColor"
-								strokeWidth="2"
-								strokeLinecap="round"
-								strokeLinejoin="round"
+							<ChevronDown
+								size={18}
 								className={`transition-transform ${showMessages ? "rotate-180" : ""}`}
-							>
-								<title>Toggle messages</title>
-								<polyline points="18 15 12 9 6 15" />
-							</svg>
+								aria-hidden
+							/>
 						</button>
 
 						{!showMessages && lastMessage && (
@@ -475,20 +435,7 @@ export function ScrollyHero({ onSuggestionReady }: ScrollyHeroProps = {}) {
 									: "opacity-30 cursor-not-allowed"
 							}`}
 						>
-							<svg
-								width="16"
-								height="16"
-								viewBox="0 0 24 24"
-								fill="none"
-								stroke="currentColor"
-								strokeWidth="2"
-								strokeLinecap="round"
-								strokeLinejoin="round"
-							>
-								<title>Send</title>
-								<line x1="22" y1="2" x2="11" y2="13" />
-								<polygon points="22 2 15 22 11 13 2 9 22 2" />
-							</svg>
+							<Send size={16} aria-hidden />
 						</button>
 					</form>
 				</div>

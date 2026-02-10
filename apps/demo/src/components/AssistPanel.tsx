@@ -5,8 +5,9 @@ import {
 } from "@ai11y/core";
 import { useAi11yContext, useChat } from "@ai11y/react";
 import { AssistPanelPopover, ChatInput, MessageBubble } from "@ai11y/ui";
+import type React from "react";
 import { useEffect, useRef } from "react";
-import { useDemoUi } from "../context/DemoUiContext";
+import { useDemoUi } from "@/context/DemoUiContext";
 
 export function AssistPanel() {
 	const { describe, act, track, agentConfig } = useAi11yContext();
@@ -128,7 +129,6 @@ export function AssistPanel() {
 						message={{
 							type: msg.type,
 							content: msg.content,
-							id: msg.id,
 						}}
 					/>
 				))}
@@ -148,7 +148,7 @@ export function AssistPanel() {
 				onChange={setInput}
 				onSubmit={handleChatSubmit}
 				disabled={isProcessing}
-				inputRef={inputRef}
+				inputRef={inputRef as React.RefObject<HTMLInputElement>}
 			/>
 		</AssistPanelPopover>
 	);

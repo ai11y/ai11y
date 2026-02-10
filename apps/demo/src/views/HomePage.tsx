@@ -1,17 +1,19 @@
+"use client";
+
 import { useState } from "react";
-import { FeatureSlide } from "../components/FeatureSlide";
-import { ClickDemoWithSuggestions } from "../components/Homepage/ClickDemo";
-import { ConceptSection } from "../components/Homepage/ConceptSection";
-import { demoCodeExamples } from "../components/Homepage/demoCodeExamples";
-import { HighlightDemoWithSuggestions } from "../components/Homepage/HighlightDemo";
-import { InputFillDemoWithSuggestions } from "../components/Homepage/InputFillDemo";
-import { NavigationDemo } from "../components/Homepage/NavigationDemo";
-import { ScrollyHero } from "../components/ScrollyHero";
-import { Footer } from "../components/sections/Footer";
+import { FeatureSlide } from "@/components/FeatureSlide";
+import { ClickDemoWithSuggestions } from "@/components/Homepage/ClickDemo";
+import { ConceptSection } from "@/components/Homepage/ConceptSection";
+import { demoCodeExamples } from "@/components/Homepage/demoCodeExamples";
+import { HighlightDemoWithSuggestions } from "@/components/Homepage/HighlightDemo";
+import { InputFillDemoWithSuggestions } from "@/components/Homepage/InputFillDemo";
+import { NavigationDemo } from "@/components/Homepage/NavigationDemo";
+import { ScrollyHero } from "@/components/ScrollyHero";
+import { Footer } from "@/components/sections/Footer";
 import {
 	SuggestionInputProvider,
 	useSuggestionInput,
-} from "../context/SuggestionInputContext";
+} from "@/context/SuggestionInputContext";
 
 function FeatureSlides() {
 	const { setSuggestion } = useSuggestionInput();

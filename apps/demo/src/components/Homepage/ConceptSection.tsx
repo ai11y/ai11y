@@ -1,53 +1,14 @@
-import { useEffect, useMemo, useState } from "react";
-import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
-import {
-	oneDark,
-	oneLight,
-} from "react-syntax-highlighter/dist/esm/styles/prism";
-import { useInView } from "../../hooks/useInView";
-import { MarkerWithHighlight as Marker } from "../Shared/MarkerWithHighlight";
+import { Tabs, TabsList, TabsPanel, TabsTrigger } from "@ai11y/ui";
+import { MarkerWithHighlight as Marker } from "@/components/Shared/MarkerWithHighlight";
+import { ThemedSyntaxHighlighter } from "@/components/Shared/ThemedSyntaxHighlighter";
+import { useInView } from "@/hooks/useInView";
 import { demoCodeExamples } from "./demoCodeExamples";
 
-type Tab = "javascript" | "react";
-
-const codeByTab: Record<Tab, { code: string; language: string }> = {
-	javascript: {
-		code: demoCodeExamples.describePlanAct,
-		language: "ts",
-	},
-	react: {
-		code: demoCodeExamples.describePlanActReact,
-		language: "tsx",
-	},
-};
-
 export function ConceptSection() {
-	const [tab, setTab] = useState<Tab>("javascript");
-	const [isDark, setIsDark] = useState(false);
 	const { ref, isInView } = useInView<HTMLElement>({
 		threshold: 0.15,
 		triggerOnce: true,
 	});
-
-	useEffect(() => {
-		const checkTheme = () => {
-			setIsDark(document.documentElement.classList.contains("dark"));
-		};
-		checkTheme();
-		const observer = new MutationObserver(checkTheme);
-		observer.observe(document.documentElement, {
-			attributes: true,
-			attributeFilter: ["class"],
-		});
-		window.addEventListener("themechange", checkTheme);
-		return () => {
-			observer.disconnect();
-			window.removeEventListener("themechange", checkTheme);
-		};
-	}, []);
-
-	const syntaxStyle = useMemo(() => (isDark ? oneDark : oneLight), [isDark]);
-	const { code, language } = codeByTab[tab];
 
 	return (
 		<Marker
@@ -91,49 +52,30 @@ export function ConceptSection() {
 					</ul>
 
 					<div className="rounded-2xl border border-border/50 bg-card/50 backdrop-blur-sm shadow-lg overflow-hidden">
-						<div className="flex border-b border-border/50 bg-muted/30">
-							<button
-								type="button"
-								onClick={() => setTab("javascript")}
-								className={`flex-1 px-4 py-3 text-sm font-medium transition-colors ${
-									tab === "javascript"
-										? "bg-background text-foreground border-b-2 border-primary"
-										: "text-muted-foreground hover:text-foreground"
-								}`}
-							>
-								JavaScript
-							</button>
-							<button
-								type="button"
-								onClick={() => setTab("react")}
-								className={`flex-1 px-4 py-3 text-sm font-medium transition-colors ${
-									tab === "react"
-										? "bg-background text-foreground border-b-2 border-primary"
-										: "text-muted-foreground hover:text-foreground"
-								}`}
-							>
-								React
-							</button>
-						</div>
-						<div className="p-6">
-							<SyntaxHighlighter
-								language={language}
-								style={syntaxStyle}
-								customStyle={{
-									margin: 0,
-									padding: "1rem",
-									background: "transparent",
-									fontSize: "0.875rem",
-									lineHeight: "1.5",
-								}}
-								PreTag="div"
-								codeTagProps={{
-									style: { background: "transparent" },
-								}}
-							>
-								{code}
-							</SyntaxHighlighter>
-						</div>
+						<Tabs defaultValue="javascript">
+							<TabsList>
+								<TabsTrigger value="javascript">JavaScript</TabsTrigger>
+								<TabsTrigger value="react">React</TabsTrigger>
+							</TabsList>
+							<TabsPanel value="javascript" className="p-6">
+								<ThemedSyntaxHighlighter
+									language="ts"
+									PreTag="div"
+									codeTagProps={{ style: { background: "transparent" } }}
+								>
+									{demoCodeExamples.describePlanAct}
+								</ThemedSyntaxHighlighter>
+							</TabsPanel>
+							<TabsPanel value="react" className="p-6">
+								<ThemedSyntaxHighlighter
+									language="tsx"
+									PreTag="div"
+									codeTagProps={{ style: { background: "transparent" } }}
+								>
+									{demoCodeExamples.describePlanActReact}
+								</ThemedSyntaxHighlighter>
+							</TabsPanel>
+						</Tabs>
 					</div>
 				</div>
 			</section>

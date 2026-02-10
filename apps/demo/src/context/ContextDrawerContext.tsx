@@ -16,6 +16,7 @@ export function ContextDrawerProvider({
 	children: React.ReactNode;
 }) {
 	const [isOpen, setIsOpen] = useState(() => {
+		if (typeof window === "undefined") return false;
 		const stored = localStorage.getItem("context-panel-open");
 		return stored === "true";
 	});

@@ -1,6 +1,6 @@
 @import "tailwindcss";
-@source "../node_modules/@ai11y/ui";
-@source "../node_modules/@ai11y/react";
+@source "../../../node_modules/@ai11y/ui";
+@source "../../../node_modules/@ai11y/react";
 
 /* Modern theme system with CSS variables (shadcn-style) */
 :root {

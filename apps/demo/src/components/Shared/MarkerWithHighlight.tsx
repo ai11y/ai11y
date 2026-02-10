@@ -1,6 +1,6 @@
 import { Marker as LibMarker } from "@ai11y/react";
 import type React from "react";
-import { useDemoUi } from "../../context/DemoUiContext";
+import { useDemoUi } from "@/context/DemoUiContext";
 
 interface MarkerWithHighlightProps {
 	id: string;

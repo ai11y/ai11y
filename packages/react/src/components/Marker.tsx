@@ -22,12 +22,10 @@ function assignRef<T>(ref: React.Ref<T> | undefined, value: T | null) {
 }
 
 export function Marker({ id, label, intent, children }: MarkerProps) {
+	const existingRef = (children.props as { ref?: React.Ref<HTMLElement> }).ref;
 	const childWithRef = React.cloneElement(children, {
 		ref: (node: HTMLElement | null) => {
-			assignRef(
-				(children as React.ReactElement & { ref?: React.Ref<HTMLElement> }).ref,
-				node,
-			);
+			assignRef(existingRef, node);
 		},
 		[ATTRIBUTE_ID]: id,
 		...(label && { [ATTRIBUTE_LABEL]: label }),

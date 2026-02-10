@@ -1,9 +1,17 @@
+import dynamic from "next/dynamic";
 import type React from "react";
-import { ContextPanel } from "../components/Shared/ContextPanel";
 import {
 	ContextDrawerProvider,
 	useContextDrawer,
-} from "../context/ContextDrawerContext";
+} from "@/context/ContextDrawerContext";
+
+const ContextPanel = dynamic(
+	() =>
+		import("@/components/Shared/ContextPanel").then((m) => ({
+			default: m.ContextPanel,
+		})),
+	{ ssr: false },
+);
 
 interface AppLayoutProps {
 	children: React.ReactNode;

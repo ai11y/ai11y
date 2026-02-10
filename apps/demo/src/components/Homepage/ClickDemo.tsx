@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { MarkerWithHighlight as Marker } from "../Shared/MarkerWithHighlight";
-import { SuggestionSection } from "../Shared/SuggestionSection";
+import { MarkerWithHighlight as Marker } from "@/components/Shared/MarkerWithHighlight";
+import { SuggestionSection } from "@/components/Shared/SuggestionSection";
 
 export function ClickDemoWithSuggestions({
 	onSuggestion,
