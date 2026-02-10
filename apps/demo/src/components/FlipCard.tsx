@@ -3,8 +3,6 @@ import type { ReactNode } from "react";
 import { useState } from "react";
 import { ThemedSyntaxHighlighter } from "@/components/Shared/ThemedSyntaxHighlighter";
 
-type Tab = "javascript" | "react";
-
 interface FlipCardProps {
 	children: ReactNode;
 	code: string;
