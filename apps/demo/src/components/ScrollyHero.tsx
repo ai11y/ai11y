@@ -162,7 +162,13 @@ export function ScrollyHero({ onSuggestionReady }: ScrollyHeroProps = {}) {
 	const handleSuggestion = useCallback(
 		(suggestion: string) => {
 			setInput(suggestion);
-			inputRef.current?.focus();
+			// Only focus on devices with fine pointer (mouse/trackpad) to avoid opening the keyboard on touch devices
+			if (
+				typeof window !== "undefined" &&
+				window.matchMedia("(pointer: fine)").matches
+			) {
+				inputRef.current?.focus();
+			}
 		},
 		[setInput],
 	);
