@@ -41,9 +41,10 @@ export async function POST(request: Request) {
 		provider: "openai",
 		apiKey,
 		model: process.env.LLM_MODEL,
-		temperature: process.env.LLM_TEMPERATURE
-			? Number(process.env.LLM_TEMPERATURE)
-			: undefined,
+		temperature:
+			process.env.LLM_TEMPERATURE != null && process.env.LLM_TEMPERATURE !== ""
+				? Number(process.env.LLM_TEMPERATURE)
+				: 0,
 		baseURL: process.env.OPENAI_BASE_URL,
 	};
 

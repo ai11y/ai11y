@@ -117,14 +117,14 @@ export function createDefaultToolRegistry(): ToolRegistry {
 		{
 			name: "click",
 			description:
-				"Click a visible interactive element (link, button, etc.) by its marker ID. CRITICAL: Only use when markerId is in inViewMarkerIds. NEVER use if markerId is NOT in inViewMarkerIds - use 'scroll' instead.",
+				"Click an interactive element (link, button, etc.) by its marker ID. When markerId is in inViewMarkerIds use only 'click'. When markerId is NOT in inViewMarkerIds you MUST call 'scroll' first (same response) then 'click'—both calls required. Never omit the click when the user asked to click.",
 			parameters: {
 				type: "object",
 				properties: {
 					markerId: {
 						type: "string",
 						description:
-							"The ID of the marker to click. REQUIRED: Check inViewMarkerIds first. If NOT in list, use 'scroll' tool instead.",
+							"The ID of the marker to click. If NOT in inViewMarkerIds, you must call 'scroll' with this markerId first, then 'click' with this same markerId—two tool calls.",
 					},
 				},
 				required: ["markerId"],
@@ -139,14 +139,14 @@ export function createDefaultToolRegistry(): ToolRegistry {
 		{
 			name: "scroll",
 			description:
-				"Scroll to a UI element by its marker ID to bring it into view. Use this when 'navigate to [element]' means scrolling to an element, or when the marker is not in inViewMarkerIds. For visible link markers, use 'click' instead. For relative scrolling ('scroll to next' or 'scroll to previous'): CRITICAL - Skip markers that are in inViewMarkerIds. Find the next/previous marker in document order (markers array order) that is NOT in inViewMarkerIds. For 'next': find the first marker after any visible ones. For 'previous': find the first marker before any visible ones.",
+				"Scroll to a UI element by its marker ID to bring it into view. Use when user only wants to see/navigate (single scroll). When user asked to CLICK or interact (increment, press, submit, fill) and the element is not in view: you MUST call scroll first AND then call 'click' (or fillInput etc.) in the same response—never scroll only when they asked for an action. For relative scrolling ('scroll to next'/'previous'): skip markers in inViewMarkerIds.",
 			parameters: {
 				type: "object",
 				properties: {
 					markerId: {
 						type: "string",
 						description:
-							"The ID of the marker to scroll to. Use when marker is not in inViewMarkerIds. For relative scrolling: find the next/previous marker in the markers array that is NOT in inViewMarkerIds. Always skip markers already in view to avoid getting stuck.",
+							"The ID of the marker to scroll to. If user asked to click/interact, you must also call the action tool (click, fillInput) after this scroll in the same response.",
 					},
 				},
 				required: ["markerId"],
