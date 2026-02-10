@@ -40,32 +40,39 @@ export function FlipCard({
 				className="relative w-full"
 				style={{
 					perspective: "1000px",
+					WebkitPerspective: "1000px",
 				}}
 			>
 				<div
 					className="relative w-full"
 					style={{
 						transformStyle: "preserve-3d",
+						WebkitTransformStyle: "preserve-3d",
 						transform: isFlipped ? "rotateY(180deg)" : "rotateY(0deg)",
 						transition: "transform 0.7s ease-in-out",
 					}}
 				>
+					{/* Front face: explicit 3D transform so iOS Safari respects backface-visibility */}
 					<div
 						className="w-full"
 						style={{
 							backfaceVisibility: "hidden",
 							WebkitBackfaceVisibility: "hidden",
+							transform: "rotateY(0deg) translateZ(1px)",
+							WebkitTransform: "rotateY(0deg) translateZ(1px)",
 						}}
 					>
 						{children}
 					</div>
 
+					{/* Back face: rotated 180deg and translateZ so it sits behind front on iOS Safari */}
 					<div
 						className="absolute inset-0 w-full"
 						style={{
 							backfaceVisibility: "hidden",
 							WebkitBackfaceVisibility: "hidden",
-							transform: "rotateY(180deg)",
+							transform: "rotateY(180deg) translateZ(1px)",
+							WebkitTransform: "rotateY(180deg) translateZ(1px)",
 						}}
 					>
 						<div className="flip-card-code rounded-2xl border border-border/50 bg-card/50 backdrop-blur-sm overflow-hidden shadow-lg">

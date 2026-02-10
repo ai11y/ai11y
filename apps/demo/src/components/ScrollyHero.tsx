@@ -181,7 +181,7 @@ export function ScrollyHero({ onSuggestionReady }: ScrollyHeroProps = {}) {
 		<>
 			<div
 				className={`fixed top-0 left-0 z-[60] transition-all duration-300 ${
-					isContextOpen ? "right-80" : "right-0"
+					isContextOpen ? "right-[var(--sidebar-width)]" : "right-0"
 				}`}
 			>
 				<div className="max-w-screen-xl mx-auto px-4 py-3 flex items-center justify-end min-h-[57px] gap-3">
@@ -218,7 +218,7 @@ export function ScrollyHero({ onSuggestionReady }: ScrollyHeroProps = {}) {
 
 			<header
 				className={`fixed top-0 left-0 z-50 transition-all duration-300 ${
-					isContextOpen ? "right-80" : "right-0"
+					isContextOpen ? "right-[var(--sidebar-width)]" : "right-0"
 				} ${
 					isCompact
 						? "opacity-100 translate-y-0"

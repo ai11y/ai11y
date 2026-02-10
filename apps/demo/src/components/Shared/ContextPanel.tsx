@@ -55,7 +55,7 @@ export function ContextPanel({ isOpen, onOpenChange }: ContextPanelProps) {
 
 	return (
 		<div
-			className={`fixed top-0 right-0 h-full w-80 bg-background border-l border-border shadow-lg flex flex-col transform transition-transform duration-300 ease-in-out z-40 ${
+			className={`fixed top-0 right-0 h-full w-[var(--sidebar-width)] bg-background border-l border-border shadow-lg flex flex-col min-h-0 transform transition-transform duration-300 ease-in-out z-40 ${
 				isOpen ? "translate-x-0" : "translate-x-full"
 			}`}
 		>
@@ -75,16 +75,16 @@ export function ContextPanel({ isOpen, onOpenChange }: ContextPanelProps) {
 			<Tabs
 				value={activeTab}
 				onValueChange={(value) => setActiveTab(value as SidebarTab)}
-				className="flex-1 min-h-0"
+				className="flex-1 min-h-0 flex flex-col overflow-hidden"
 			>
 				<TabsList
-					className="border-b-0 bg-transparent"
+					className="border-b-0 bg-transparent flex-shrink-0"
 					aria-label="Sidebar panels"
 				>
 					<TabsTrigger value="ui-context">UI Context</TabsTrigger>
 					<TabsTrigger value="events">Events ({events.length})</TabsTrigger>
 				</TabsList>
-				<TabsPanel value="events" className="p-4">
+				<TabsPanel value="events" className="p-4 min-h-0 overflow-y-auto">
 					<div className="space-y-2">
 						{events.length === 0 ? (
 							<p className="text-xs text-muted-foreground">No events yet</p>
@@ -115,7 +115,7 @@ export function ContextPanel({ isOpen, onOpenChange }: ContextPanelProps) {
 						)}
 					</div>
 				</TabsPanel>
-				<TabsPanel value="ui-context" className="p-4">
+				<TabsPanel value="ui-context" className="p-4 min-h-0 overflow-y-auto">
 					<div className="space-y-3 text-xs">
 						<div>
 							<div className="text-muted-foreground mb-1">Route</div>
@@ -200,6 +200,38 @@ export function ContextPanel({ isOpen, onOpenChange }: ContextPanelProps) {
 														<span className="font-medium">Intent:</span>{" "}
 														{marker.intent}
 													</div>
+													{marker.value !== undefined && (
+														<div>
+															<span className="font-medium">Value:</span>{" "}
+															<span className="font-mono text-foreground break-all">
+																{marker.value === "" ? (
+																	<span className="italic">(empty)</span>
+																) : (
+																	marker.value
+																)}
+															</span>
+														</div>
+													)}
+													{marker.options !== undefined &&
+														marker.options.length > 0 && (
+															<div>
+																<span className="font-medium">Options:</span>{" "}
+																<span className="text-foreground">
+																	{marker.options
+																		.map((o) => `${o.label} (${o.value})`)
+																		.join(", ")}
+																</span>
+															</div>
+														)}
+													{marker.selectedOptions !== undefined &&
+														marker.selectedOptions.length > 0 && (
+															<div>
+																<span className="font-medium">Selected:</span>{" "}
+																<span className="text-foreground">
+																	{marker.selectedOptions.join(", ")}
+																</span>
+															</div>
+														)}
 												</div>
 											</div>
 										);
