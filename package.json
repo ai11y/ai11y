@@ -9,6 +9,7 @@
 		"docs:build": "typedoc",
 		"build:server": "turbo run build --filter=ai11y-server-app",
 		"watch": "turbo run watch",
+		"quality": "pnpm format && pnpm lint",
 		"format": "biome check --write . && pnpm run format:md",
 		"format:md": "pnpm exec prettier --write \"**/*.md\"",
 		"lint": "biome check . && pnpm run lint:md",
