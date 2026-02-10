@@ -2,9 +2,9 @@
 
 import type { AgentConfig } from "@ai11y/core";
 import { Ai11yProvider } from "@ai11y/react";
+import { usePathname, useRouter } from "next/navigation";
 import { ThemeProvider } from "next-themes";
 import React from "react";
-import { usePathname, useRouter } from "next/navigation";
 import { CustomHighlightWrapper } from "@/components/Shared/CustomHighlight";
 import { DemoUiProvider } from "@/context/DemoUiContext";
 import { AppLayout } from "@/layout/AppLayout";

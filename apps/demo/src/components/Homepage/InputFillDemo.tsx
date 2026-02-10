@@ -1,4 +1,14 @@
-import { Field, Form, Input, Textarea } from "@ai11y/ui";
+import {
+	Field,
+	Form,
+	Input,
+	Select,
+	SelectContent,
+	SelectItem,
+	SelectTrigger,
+	SelectValue,
+	Textarea,
+} from "@ai11y/ui";
 import { useState } from "react";
 import { MarkerWithHighlight as Marker } from "@/components/Shared/MarkerWithHighlight";
 import { SuggestionSection } from "@/components/Shared/SuggestionSection";
@@ -82,20 +92,24 @@ export function InputFillDemoWithSuggestions({
 					intent="Category selection dropdown"
 				>
 					<Field label="Category" name="category">
-						<select
-							id="fill_demo_category"
+						<Select
+							modal={false}
 							value={category}
-							onChange={(e) => setCategory(e.target.value)}
-							className="w-full h-10 px-3 py-2 rounded-sm border border-border bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 transition-colors"
+							onValueChange={(value) => setCategory(value as string)}
 							data-1p-ignore="true"
 						>
-							<option value="">Select a category</option>
-							<option value="support">Support</option>
-							<option value="feedback">Feedback</option>
-							<option value="bug">Bug Report</option>
-							<option value="feature">Feature Request</option>
-							<option value="other">Other</option>
-						</select>
+							<SelectTrigger>
+								<SelectValue placeholder="Select a category" />
+							</SelectTrigger>
+							<SelectContent>
+								<SelectItem value="">Select a category</SelectItem>
+								<SelectItem value="support">Support</SelectItem>
+								<SelectItem value="feedback">Feedback</SelectItem>
+								<SelectItem value="bug">Bug Report</SelectItem>
+								<SelectItem value="feature">Feature Request</SelectItem>
+								<SelectItem value="other">Other</SelectItem>
+							</SelectContent>
+						</Select>
 					</Field>
 				</Marker>
 			</Form>

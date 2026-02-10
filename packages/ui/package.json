@@ -15,10 +15,11 @@
 	},
 	"sideEffects": false,
 	"dependencies": {
-		"@base-ui/react": "1.0.0",
-		"class-variance-authority": "^0.7.1",
-		"clsx": "^2.1.1",
-		"tailwind-merge": "^2.6.0"
+		"@base-ui/react": "1.1.0",
+		"class-variance-authority": "0.7.1",
+		"clsx": "2.1.1",
+		"lucide-react": "0.563.0",
+		"tailwind-merge": "3.4.0"
 	},
 	"peerDependencies": {
 		"react": "19.2.3",
@@ -30,16 +31,16 @@
 		"dev": "tsdown --watch"
 	},
 	"devDependencies": {
+		"@tailwindcss/postcss": "4.1.18",
 		"@tsconfig/create-react-app": "2.0.10",
 		"@types/react": "19.2.7",
 		"@types/react-dom": "19.2.3",
+		"postcss": "8.5.6",
+		"postcss-cli": "11.0.0",
 		"react": "19.2.3",
 		"react-dom": "19.2.3",
-		"tsdown": "0.18.1",
-		"typescript": "5.9.3",
 		"tailwindcss": "4.1.18",
-		"@tailwindcss/postcss": "4.1.18",
-		"postcss": "8.5.6",
-		"postcss-cli": "11.0.0"
+		"tsdown": "0.18.1",
+		"typescript": "5.9.3"
 	}
 }

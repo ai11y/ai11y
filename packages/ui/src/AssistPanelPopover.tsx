@@ -2,6 +2,7 @@ import {
 	Popover,
 	type PopoverRootChangeEventDetails,
 } from "@base-ui/react/popover";
+import { X } from "lucide-react";
 import type React from "react";
 import { useCallback } from "react";
 import { AssistTrigger } from "./AssistTrigger.js";
@@ -56,21 +57,7 @@ export function AssistPanelPopover({
 								className="absolute top-2 right-2 z-10 p-1 text-muted-foreground hover:text-foreground transition-colors rounded hover:bg-muted/50"
 								aria-label="Close"
 							>
-								<svg
-									width="14"
-									height="14"
-									viewBox="0 0 24 24"
-									fill="none"
-									stroke="currentColor"
-									strokeWidth="2"
-									strokeLinecap="round"
-									strokeLinejoin="round"
-									aria-hidden
-								>
-									<title>Close</title>
-									<line x1="18" y1="6" x2="6" y2="18" />
-									<line x1="6" y1="6" x2="18" y2="18" />
-								</svg>
+								<X size={14} aria-hidden />
 							</button>
 						)}
 						{children}

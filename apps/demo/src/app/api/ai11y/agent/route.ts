@@ -1,9 +1,9 @@
-import type { AgentRequest } from "@ai11y/core";
 import {
 	createDefaultToolRegistry,
 	runAgent,
 	type ServerConfig,
 } from "@ai11y/agent";
+import type { AgentRequest } from "@ai11y/core";
 import { NextResponse } from "next/server";
 
 export async function POST(request: Request) {
