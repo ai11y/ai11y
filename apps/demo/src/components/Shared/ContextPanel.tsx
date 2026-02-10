@@ -12,6 +12,11 @@ export function ContextPanel({ isOpen, onOpenChange }: ContextPanelProps) {
 	const { events, describe, state, lastError } = useAi11yContext();
 	const [context, setContext] = useState(() => describe());
 	const [activeTab, setActiveTab] = useState<SidebarTab>("ui-context");
+	const [mounted, setMounted] = useState(false);
+
+	useEffect(() => {
+		setMounted(true);
+	}, []);
 
 	useEffect(() => {
 		const updateContext = () => {
@@ -25,16 +30,17 @@ export function ContextPanel({ isOpen, onOpenChange }: ContextPanelProps) {
 
 	const formatTimestamp = (timestamp: number) => {
 		const date = new Date(timestamp);
-		return date.toLocaleTimeString("en-US", {
+		const time = date.toLocaleTimeString("en-US", {
 			hour12: false,
 			hour: "2-digit",
 			minute: "2-digit",
 			second: "2-digit",
-			millisecond: "2-digit",
 		});
+		const ms = String(date.getMilliseconds()).padStart(3, "0");
+		return `${time}.${ms}`;
 	};
 
-	const formatPayload = (payload: unknown) => {
+	const formatPayload = (payload: unknown): string => {
 		if (payload === null || payload === undefined) {
 			return "null";
 		}
@@ -146,11 +152,11 @@ export function ContextPanel({ isOpen, onOpenChange }: ContextPanelProps) {
 													{formatTimestamp(event.timestamp)}
 												</span>
 											</div>
-											{event.payload && (
+											{event.payload != null ? (
 												<pre className="mt-1 text-[10px] text-muted-foreground overflow-x-auto">
 													{formatPayload(event.payload)}
 												</pre>
-											)}
+											) : null}
 										</div>
 									))
 							)}
@@ -182,7 +188,8 @@ export function ContextPanel({ isOpen, onOpenChange }: ContextPanelProps) {
 								</pre>
 							</div>
 
-							{context.inViewMarkerIds &&
+							{mounted &&
+								context.inViewMarkerIds &&
 								context.inViewMarkerIds.length > 0 && (
 									<div>
 										<div className="text-muted-foreground mb-1">

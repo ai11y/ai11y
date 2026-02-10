@@ -6,10 +6,11 @@ import {
 } from "@ai11y/core";
 import { useAi11yContext, useChat } from "@ai11y/react";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { useContextDrawer } from "../context/ContextDrawerContext";
-import { useDemoUi } from "../context/DemoUiContext";
+import Link from "next/link";
+import { useContextDrawer } from "@/context/ContextDrawerContext";
+import { useDemoUi } from "@/context/DemoUiContext";
 import { MarkerWithHighlight as Marker } from "./Shared/MarkerWithHighlight";
-import { ThemeToggle } from "./Shared/ThemeToggle";
+import { ThemeToggleButton } from "./Shared/ThemeToggleDynamic";
 import { SuggestionChip } from "./SuggestionChip";
 
 interface ScrollyHeroProps {
@@ -22,6 +23,7 @@ export function ScrollyHero({ onSuggestionReady }: ScrollyHeroProps = {}) {
 	const { isOpen: isContextOpen, setIsOpen: setContextOpen } =
 		useContextDrawer();
 	const [isCompact, setIsCompact] = useState(() => {
+		if (typeof window === "undefined") return false;
 		const scrollY = window.scrollY;
 		const threshold = window.innerHeight * 0.6;
 		return scrollY > threshold;
@@ -169,22 +171,16 @@ export function ScrollyHero({ onSuggestionReady }: ScrollyHeroProps = {}) {
 				}`}
 			>
 				<div className="max-w-screen-xl mx-auto px-4 py-3 flex items-center justify-end min-h-[57px] gap-3">
-					<a
+					<Link
 						href="/docs/"
 						target="_blank"
 						rel="noopener noreferrer"
 						className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors whitespace-nowrap"
 					>
 						Docs
-					</a>
+					</Link>
 					<div className="flex items-center gap-2">
-						<Marker
-							id="theme_toggle"
-							label="Theme Toggle"
-							intent="Toggle between light and dark theme"
-						>
-							<ThemeToggle />
-						</Marker>
+						<ThemeToggleButton />
 						{!isContextOpen && (
 							<Marker
 								id="context_panel_toggle"

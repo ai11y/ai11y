@@ -1,6 +1,0 @@
-# Serve TypeDoc static files under /docs (must come before SPA catch-all)
-/docs   /docs/   301
-/docs/*   /docs/:splat   200
-
-# SPA fallback
-/*   /index.html   200

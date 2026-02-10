@@ -1,11 +1,7 @@
-import { useEffect, useMemo, useState } from "react";
-import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
-import {
-	oneDark,
-	oneLight,
-} from "react-syntax-highlighter/dist/esm/styles/prism";
-import { useInView } from "../../hooks/useInView";
-import { MarkerWithHighlight as Marker } from "../Shared/MarkerWithHighlight";
+import { useState } from "react";
+import { useInView } from "@/hooks/useInView";
+import { ThemedSyntaxHighlighter } from "@/components/Shared/ThemedSyntaxHighlighter";
+import { MarkerWithHighlight as Marker } from "@/components/Shared/MarkerWithHighlight";
 import { demoCodeExamples } from "./demoCodeExamples";
 
 type Tab = "javascript" | "react";
@@ -23,30 +19,10 @@ const codeByTab: Record<Tab, { code: string; language: string }> = {
 
 export function ConceptSection() {
 	const [tab, setTab] = useState<Tab>("javascript");
-	const [isDark, setIsDark] = useState(false);
 	const { ref, isInView } = useInView<HTMLElement>({
 		threshold: 0.15,
 		triggerOnce: true,
 	});
-
-	useEffect(() => {
-		const checkTheme = () => {
-			setIsDark(document.documentElement.classList.contains("dark"));
-		};
-		checkTheme();
-		const observer = new MutationObserver(checkTheme);
-		observer.observe(document.documentElement, {
-			attributes: true,
-			attributeFilter: ["class"],
-		});
-		window.addEventListener("themechange", checkTheme);
-		return () => {
-			observer.disconnect();
-			window.removeEventListener("themechange", checkTheme);
-		};
-	}, []);
-
-	const syntaxStyle = useMemo(() => (isDark ? oneDark : oneLight), [isDark]);
 	const { code, language } = codeByTab[tab];
 
 	return (
@@ -116,23 +92,13 @@ export function ConceptSection() {
 							</button>
 						</div>
 						<div className="p-6">
-							<SyntaxHighlighter
+							<ThemedSyntaxHighlighter
 								language={language}
-								style={syntaxStyle}
-								customStyle={{
-									margin: 0,
-									padding: "1rem",
-									background: "transparent",
-									fontSize: "0.875rem",
-									lineHeight: "1.5",
-								}}
 								PreTag="div"
-								codeTagProps={{
-									style: { background: "transparent" },
-								}}
+								codeTagProps={{ style: { background: "transparent" } }}
 							>
 								{code}
-							</SyntaxHighlighter>
+							</ThemedSyntaxHighlighter>
 						</div>
 					</div>
 				</div>

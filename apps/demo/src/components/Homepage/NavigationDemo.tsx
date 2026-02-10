@@ -1,15 +1,16 @@
 import { Badge } from "@ai11y/ui";
-import { useLocation, useNavigate } from "react-router-dom";
-import { MarkerWithHighlight as Marker } from "../Shared/MarkerWithHighlight";
-import { SuggestionSection } from "../Shared/SuggestionSection";
+import Link from "next/link";
+import { usePathname, useRouter } from "next/navigation";
+import { MarkerWithHighlight as Marker } from "@/components/Shared/MarkerWithHighlight";
+import { SuggestionSection } from "@/components/Shared/SuggestionSection";
 
 export function NavigationDemo({
 	onSuggestion,
 }: {
 	onSuggestion: (s: string) => void;
 }) {
-	const location = useLocation();
-	const navigate = useNavigate();
+	const pathname = usePathname();
+	const router = useRouter();
 
 	const routes = [
 		{ path: "/", label: "Home", icon: "🏠" },
@@ -22,11 +23,8 @@ export function NavigationDemo({
 		path: string,
 	) => {
 		e.preventDefault();
-		// Prevent unnecessary navigation if already on the target route
-		// Note: This handles direct user clicks; agent-initiated navigation
-		// is handled by App.tsx's handleNavigate which also includes this check
-		if (path !== location.pathname) {
-			navigate(path);
+		if (path !== pathname) {
+			router.push(path);
 		}
 	};
 
@@ -37,7 +35,7 @@ export function NavigationDemo({
 			</div>
 			<div className="space-y-2">
 				{routes.map((route) => {
-					const isCurrent = location.pathname === route.path;
+					const isCurrent = pathname === route.path;
 					return (
 						<Marker
 							key={route.path}
@@ -45,7 +43,7 @@ export function NavigationDemo({
 							label={`${route.label} Route`}
 							intent={`Navigate to ${route.label} page`}
 						>
-							<a
+							<Link
 								href={route.path}
 								onClick={(e) => handleRouteClick(e, route.path)}
 								className={`flex items-center gap-3 px-4 py-3 rounded-sm border transition-all ${
@@ -61,7 +59,7 @@ export function NavigationDemo({
 										current
 									</Badge>
 								)}
-							</a>
+							</Link>
 						</Marker>
 					);
 				})}

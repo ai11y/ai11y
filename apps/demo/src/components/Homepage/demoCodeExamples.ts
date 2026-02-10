@@ -39,10 +39,11 @@ function Chat() {
 </a>`,
 
 	navigation: `import { Marker } from "@ai11y/react";
-import { useNavigate } from "react-router-dom";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 function NavigationDemo() {
-  const navigate = useNavigate();
+  const router = useRouter();
 
   return (
     <Marker
@@ -50,9 +51,12 @@ function NavigationDemo() {
       label="Billing Route"
       intent="Navigate to Billing page"
     >
-      <a href="/billing" onClick={() => navigate("/billing")}>
+      <Link href="/billing" onClick={(e) => {
+        e.preventDefault();
+        router.push("/billing");
+      }}>
         Billing
-      </a>
+      </Link>
     </Marker>
   );
 }`,

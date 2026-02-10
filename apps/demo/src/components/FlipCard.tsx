@@ -1,11 +1,7 @@
 import { Button } from "@ai11y/ui";
 import type { ReactNode } from "react";
-import { useEffect, useMemo, useState } from "react";
-import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
-import {
-	oneDark,
-	oneLight,
-} from "react-syntax-highlighter/dist/esm/styles/prism";
+import { useState } from "react";
+import { ThemedSyntaxHighlighter } from "@/components/Shared/ThemedSyntaxHighlighter";
 
 type Tab = "javascript" | "react";
 
@@ -27,32 +23,6 @@ export function FlipCard({
 }: FlipCardProps) {
 	const [isFlipped, setIsFlipped] = useState(false);
 	const [codeTab, setCodeTab] = useState<Tab>("javascript");
-	const [isDark, setIsDark] = useState(false);
-
-	useEffect(() => {
-		const checkTheme = () => {
-			setIsDark(document.documentElement.classList.contains("dark"));
-		};
-		checkTheme();
-		const handleThemeChange = () => {
-			checkTheme();
-		};
-		const observer = new MutationObserver(checkTheme);
-		observer.observe(document.documentElement, {
-			attributes: true,
-			attributeFilter: ["class"],
-		});
-		window.addEventListener("themechange", handleThemeChange);
-
-		return () => {
-			observer.disconnect();
-			window.removeEventListener("themechange", handleThemeChange);
-		};
-	}, []);
-
-	const syntaxStyle = useMemo(() => {
-		return isDark ? oneDark : oneLight;
-	}, [isDark]);
 
 	return (
 		<div className="w-full">
@@ -127,50 +97,26 @@ export function FlipCard({
 										</button>
 									</div>
 									<div className="p-6">
-										<SyntaxHighlighter
+										<ThemedSyntaxHighlighter
 											language={
 												codeTab === "javascript" ? language : reactLanguage
 											}
-											style={syntaxStyle}
-											customStyle={{
-												margin: 0,
-												padding: "1rem",
-												background: "transparent",
-												fontSize: "0.875rem",
-												lineHeight: "1.5",
-											}}
 											PreTag="div"
-											codeTagProps={{
-												style: {
-													background: "transparent",
-												},
-											}}
+											codeTagProps={{ style: { background: "transparent" } }}
 										>
 											{codeTab === "javascript" ? code : reactCode}
-										</SyntaxHighlighter>
+										</ThemedSyntaxHighlighter>
 									</div>
 								</>
 							) : (
 								<div className="p-6">
-									<SyntaxHighlighter
+									<ThemedSyntaxHighlighter
 										language={language}
-										style={syntaxStyle}
-										customStyle={{
-											margin: 0,
-											padding: "1rem",
-											background: "transparent",
-											fontSize: "0.875rem",
-											lineHeight: "1.5",
-										}}
 										PreTag="div"
-										codeTagProps={{
-											style: {
-												background: "transparent",
-											},
-										}}
+										codeTagProps={{ style: { background: "transparent" } }}
 									>
 										{code}
-									</SyntaxHighlighter>
+									</ThemedSyntaxHighlighter>
 								</div>
 							)}
 						</div>

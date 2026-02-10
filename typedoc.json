@@ -6,7 +6,7 @@
 		"excludeReferences": true,
 		"compactFolders": true
 	},
-	"out": "apps/demo/public/docs",
+	"out": "apps/demo-next/public/docs",
 	"name": "ai11y docs",
 	"entryPointStrategy": "packages",
 	"entryPoints": ["packages/core", "packages/react", "packages/agent"],

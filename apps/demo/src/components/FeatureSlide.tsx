@@ -1,5 +1,5 @@
 import type { ReactNode } from "react";
-import { useInView } from "../hooks/useInView";
+import { useInView } from "@/hooks/useInView";
 import { FlipCard } from "./FlipCard";
 import { MarkerWithHighlight as Marker } from "./Shared/MarkerWithHighlight";
 

@@ -1,4 +1,4 @@
-import { SuggestionChip } from "../SuggestionChip";
+import { SuggestionChip } from "@/components/SuggestionChip";
 
 interface SuggestionSectionProps {
 	suggestions: string[];

@@ -2,28 +2,30 @@
 	"name": "ai11y-demo",
 	"author": "maerzhase3000",
 	"private": true,
-	"type": "module",
 	"scripts": {
-		"dev": "vite",
-		"build": "vite build"
+		"dev": "next dev --turbo",
+		"build": "next build",
+		"start": "next start"
 	},
 	"dependencies": {
+		"@ai11y/agent": "workspace:*",
 		"@ai11y/core": "workspace:*",
 		"@ai11y/react": "workspace:*",
 		"@ai11y/ui": "workspace:*",
-		"@tailwindcss/vite": "4.1.18",
+		"@tailwindcss/postcss": "4.1.18",
+		"next": "16.1.6",
+		"next-themes": "0.4.6",
 		"react": "19.2.3",
 		"react-dom": "19.2.3",
-		"react-router-dom": "7.13.0",
 		"react-syntax-highlighter": "16.1.0"
 	},
 	"devDependencies": {
+		"@types/node": "25.0.3",
 		"@types/react": "19.2.7",
 		"@types/react-dom": "19.2.3",
-		"@types/react-syntax-highlighter": "^15.5.12",
-		"@vitejs/plugin-react": "5.1.2",
+		"@types/react-syntax-highlighter": "15.5.13",
+		"postcss": "8.5.6",
 		"tailwindcss": "4.1.18",
-		"typescript": "5.9.3",
-		"vite": "7.3.0"
+		"typescript": "5.9.3"
 	}
 }

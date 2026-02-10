@@ -1,0 +1,280 @@
+@import "tailwindcss";
+@source "../../../node_modules/@ai11y/ui";
+@source "../../../node_modules/@ai11y/react";
+
+/* Modern theme system with CSS variables (shadcn-style) */
+:root {
+	--background: 0 0% 100%;
+	--foreground: 0 0% 10%;
+	--card: 0 0% 100%;
+	--card-foreground: 0 0% 10%;
+	--popover: 0 0% 100%;
+	--popover-foreground: 0 0% 10%;
+	--primary: 11 100% 50%;
+	--primary-foreground: 0 0% 100%;
+	--secondary: 0 0% 95%;
+	--secondary-foreground: 0 0% 10%;
+	--muted: 0 0% 95%;
+	--muted-foreground: 0 0% 45%;
+	--accent: 0 0% 95%;
+	--accent-foreground: 0 0% 10%;
+	--destructive: 0 84.2% 60.2%;
+	--destructive-foreground: 0 0% 100%;
+	--border: 0 0% 85%;
+	--input: 0 0% 85%;
+	--ring: 11 100% 50%;
+	--radius: 0.5rem;
+	color-scheme: light;
+}
+
+.dark {
+	--background: 0 0% 4%;
+	--foreground: 0 0% 96%;
+	--card: 0 0% 7%;
+	--card-foreground: 0 0% 96%;
+	--popover: 0 0% 7%;
+	--popover-foreground: 0 0% 96%;
+	--primary: 11 100% 50%;
+	--primary-foreground: 0 0% 100%;
+	--secondary: 0 0% 12%;
+	--secondary-foreground: 0 0% 96%;
+	--muted: 0 0% 12%;
+	--muted-foreground: 0 0% 60%;
+	--accent: 0 0% 12%;
+	--accent-foreground: 0 0% 96%;
+	--destructive: 0 62.8% 50%;
+	--destructive-foreground: 0 0% 100%;
+	--border: 0 0% 18%;
+	--input: 0 0% 18%;
+	--ring: 11 100% 50%;
+	color-scheme: dark;
+}
+
+* {
+	border-color: hsl(var(--border));
+}
+
+body {
+	background-color: hsl(var(--background));
+	color: hsl(var(--foreground));
+	font-family:
+		"Geist", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+	font-feature-settings:
+		"rlig" 1,
+		"calt" 1;
+}
+
+code,
+pre {
+	font-family: "Geist Mono", "Courier New", monospace;
+}
+
+/* Tailwind theme configuration for custom colors */
+@theme {
+	--color-background: hsl(var(--background));
+	--color-foreground: hsl(var(--foreground));
+	--color-card: hsl(var(--card));
+	--color-card-foreground: hsl(var(--card-foreground));
+	--color-popover: hsl(var(--popover));
+	--color-popover-foreground: hsl(var(--popover-foreground));
+	--color-primary: hsl(var(--primary));
+	--color-primary-foreground: hsl(var(--primary-foreground));
+	--color-secondary: hsl(var(--secondary));
+	--color-secondary-foreground: hsl(var(--secondary-foreground));
+	--color-muted: hsl(var(--muted));
+	--color-muted-foreground: hsl(var(--muted-foreground));
+	--color-accent: hsl(var(--accent));
+	--color-accent-foreground: hsl(var(--accent-foreground));
+	--color-destructive: hsl(var(--destructive));
+	--color-destructive-foreground: hsl(var(--destructive-foreground));
+	--color-border: hsl(var(--border));
+	--color-input: hsl(var(--input));
+	--color-ring: hsl(var(--ring));
+}
+
+/* Custom animations for highlight effect */
+@keyframes pulse-glow {
+	0%,
+	100% {
+		box-shadow: 0 0 20px rgba(255, 47, 0, 0.6);
+	}
+	50% {
+		box-shadow: 0 0 30px rgba(255, 47, 0, 0.9);
+	}
+}
+
+/* Comic-style rubber band highlight (stretch/squash, like animate.css) */
+@keyframes rq-rubberband {
+	0% {
+		transform: scale3d(1, 1, 1);
+	}
+	30% {
+		transform: scale3d(1.5, 0.7, 1);
+	}
+	40% {
+		transform: scale3d(0.8, 1.25, 1);
+	}
+	50% {
+		transform: scale3d(1.2, 0.85, 1);
+	}
+	65% {
+		transform: scale3d(0.96, 1.04, 1);
+	}
+	75% {
+		transform: scale3d(1.04, 0.96, 1);
+	}
+	100% {
+		transform: scale3d(1, 1, 1);
+	}
+}
+
+.rq-highlight-rubberband {
+	animation: rq-rubberband 1300ms ease-in-out;
+	transform-origin: center;
+}
+
+/* Smooth scroll behavior */
+html {
+	scroll-behavior: smooth;
+}
+
+/* Modern scrollbar styling */
+::-webkit-scrollbar {
+	width: 10px;
+	height: 10px;
+}
+
+::-webkit-scrollbar-track {
+	background: hsl(var(--muted));
+}
+
+::-webkit-scrollbar-thumb {
+	background: hsl(var(--muted-foreground) / 0.3);
+	border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+	background: hsl(var(--muted-foreground) / 0.5);
+}
+
+/* Text selection styling to match theme */
+::selection {
+	background-color: hsl(var(--primary) / 0.3);
+	color: hsl(var(--foreground));
+}
+
+::-moz-selection {
+	background-color: hsl(var(--primary) / 0.3);
+	color: hsl(var(--foreground));
+}
+
+/* Prism syntax highlighting styles */
+code[class*="language-"],
+pre[class*="language-"] {
+	font-family: "Geist Mono", "Courier New", monospace;
+}
+
+/* Transparent backgrounds for syntax highlighter in flip cards */
+.flip-card-code pre[class*="language-"],
+.flip-card-code code[class*="language-"],
+.flip-card-code span,
+.flip-card-code .token {
+	background: transparent;
+}
+
+/* Scrolly-telling animations */
+@keyframes slide-in-left {
+	from {
+		opacity: 0;
+		transform: translateX(-60px);
+	}
+	to {
+		opacity: 1;
+		transform: translateX(0);
+	}
+}
+
+@keyframes slide-in-right {
+	from {
+		opacity: 0;
+		transform: translateX(60px);
+	}
+	to {
+		opacity: 1;
+		transform: translateX(0);
+	}
+}
+
+@keyframes fade-up {
+	from {
+		opacity: 0;
+		transform: translateY(30px);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+.slide-from-left {
+	opacity: 0;
+	transform: translateX(-60px);
+}
+
+.slide-from-right {
+	opacity: 0;
+	transform: translateX(60px);
+}
+
+.slide-visible {
+	animation: slide-in-left 0.6s ease-out forwards;
+}
+
+.slide-visible-right {
+	animation: slide-in-right 0.6s ease-out forwards;
+}
+
+.fade-up {
+	animation: fade-up 0.5s ease-out forwards;
+}
+
+/* Staggered animation delays */
+.stagger-1 {
+	animation-delay: 0.1s;
+}
+.stagger-2 {
+	animation-delay: 0.2s;
+}
+.stagger-3 {
+	animation-delay: 0.3s;
+}
+.stagger-4 {
+	animation-delay: 0.4s;
+}
+
+/* Scrolly layout helpers */
+.scrolly-container {
+	position: relative;
+}
+
+.scrolly-spacer {
+	height: 50vh;
+}
+
+/* Custom scrollbar for messages */
+.scrollbar-thin::-webkit-scrollbar {
+	width: 4px;
+}
+
+.scrollbar-thin::-webkit-scrollbar-track {
+	background: transparent;
+}
+
+.scrollbar-thin::-webkit-scrollbar-thumb {
+	background: hsl(var(--muted-foreground) / 0.2);
+	border-radius: 2px;
+}
+
+.scrollbar-thin::-webkit-scrollbar-thumb:hover {
+	background: hsl(var(--muted-foreground) / 0.3);
+}
