@@ -1,4 +1,9 @@
-import { ATTRIBUTE_ID, ATTRIBUTE_INTENT, ATTRIBUTE_LABEL } from "@ai11y/core";
+import {
+	ATTRIBUTE_ID,
+	ATTRIBUTE_INTENT,
+	ATTRIBUTE_LABEL,
+	ATTRIBUTE_SENSITIVE,
+} from "@ai11y/core";
 import React from "react";
 
 interface MarkerProps {
@@ -6,6 +11,8 @@ interface MarkerProps {
 	label: string;
 	intent: string;
 	children: React.ReactElement;
+	/** Mark this element as containing sensitive data that should be redacted from the UI context */
+	sensitive?: boolean;
 }
 
 function assignRef<T>(ref: React.Ref<T> | undefined, value: T | null) {
@@ -21,7 +28,13 @@ function assignRef<T>(ref: React.Ref<T> | undefined, value: T | null) {
 	}
 }
 
-export function Marker({ id, label, intent, children }: MarkerProps) {
+export function Marker({
+	id,
+	label,
+	intent,
+	children,
+	sensitive,
+}: MarkerProps) {
 	const existingRef = (children.props as { ref?: React.Ref<HTMLElement> }).ref;
 	const childWithRef = React.cloneElement(children, {
 		ref: (node: HTMLElement | null) => {
@@ -30,10 +43,12 @@ export function Marker({ id, label, intent, children }: MarkerProps) {
 		[ATTRIBUTE_ID]: id,
 		...(label && { [ATTRIBUTE_LABEL]: label }),
 		...(intent && { [ATTRIBUTE_INTENT]: intent }),
+		...(sensitive && { [ATTRIBUTE_SENSITIVE]: "true" }),
 	} as React.HTMLAttributes<HTMLElement> & {
 		[ATTRIBUTE_ID]: string;
 		[ATTRIBUTE_LABEL]?: string;
 		[ATTRIBUTE_INTENT]?: string;
+		[ATTRIBUTE_SENSITIVE]?: string;
 	});
 
 	return <>{childWithRef}</>;

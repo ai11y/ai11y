@@ -86,20 +86,40 @@ function HighlightDemo() {
   );
 }`,
 
-	clickJavaScript: `<button
+	clickJavaScript: `<script type="module">
+  import { setState } from "@ai11y/core";
+
+  let count = 0;
+
+  function updateCounter() {
+    setState({ counterValue: count });
+  }
+
+  document.querySelector("#increment").addEventListener("click", () => {
+    count++;
+    updateCounter();
+  });
+</script>
+
+<button
   data-ai-id="click_demo_increment"
   data-ai-label="Increment Button"
   data-ai-intent="Increases the counter by 1"
-  onclick="/* your handler */"
+  id="increment"
 >
   +
 </button>`,
 
 	click: `import { Marker } from "@ai11y/react";
-import { useState } from "react";
+import { setState } from "@ai11y/core";
+import { useState, useEffect } from "react";
 
 function ClickDemo() {
   const [count, setCount] = useState(0);
+
+  useEffect(() => {
+    setState({ counterValue: count });
+  }, [count]);
 
   return (
     <Marker
@@ -142,6 +162,45 @@ function InputFillDemo() {
         placeholder="Enter your email"
       />
     </Marker>
+  );
+}`,
+
+	permissionsJavaScript: `<script type="module">
+  import { setState } from "@ai11y/core";
+
+  setState({
+    canDelete: false,
+    canExport: true,
+    role: "editor"
+  });
+</script>
+
+<button
+  data-ai-id="export_btn"
+  data-ai-label="Export"
+  disabled="false"
+>
+  Export
+</button>`,
+
+	permissions: `import { setState } from "@ai11y/core";
+import { useEffect } from "react";
+
+const permissions = {
+  canDelete: false,
+  canExport: true,
+  role: "editor"
+};
+
+function App() {
+  useEffect(() => {
+    setState(permissions);
+  }, []);
+
+  return (
+    <button disabled={!permissions.canExport}>
+      Export
+    </button>
   );
 }`,
 };
