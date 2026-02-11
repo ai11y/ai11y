@@ -7,6 +7,7 @@ import { ConceptSection } from "@/components/Homepage/ConceptSection";
 import { demoCodeExamples } from "@/components/Homepage/demoCodeExamples";
 import { HighlightDemoWithSuggestions } from "@/components/Homepage/HighlightDemo";
 import { InputFillDemoWithSuggestions } from "@/components/Homepage/InputFillDemo";
+import { MultiStepDemo } from "@/components/Homepage/MultiStepDemo";
 import { NavigationDemo } from "@/components/Homepage/NavigationDemo";
 import { ScrollyHero } from "@/components/ScrollyHero";
 import { Footer } from "@/components/sections/Footer";
@@ -88,6 +89,19 @@ function FeatureSlides() {
 				markerIntent="Navigate to the Form Awareness feature section"
 			>
 				<InputFillDemoWithSuggestions onSuggestion={setSuggestion} />
+			</FeatureSlide>
+
+			<FeatureSlide
+				id="feature-multistep"
+				direction="left"
+				emoji="🔗"
+				title="Chained instructions"
+				description="Your agent can perform multi-step tasks inside one surface: fill, toggle, save. Instructions chain reliably across the same describe → plan → act loop."
+				markerId="slide_multistep"
+				markerLabel="Multi-step Section"
+				markerIntent="Navigate to the Multi-step demo section"
+			>
+				<MultiStepDemo />
 			</FeatureSlide>
 		</div>
 	);
