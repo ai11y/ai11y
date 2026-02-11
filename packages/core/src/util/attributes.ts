@@ -4,6 +4,7 @@
 export const ATTRIBUTE_ID = "data-ai-id";
 export const ATTRIBUTE_LABEL = "data-ai-label";
 export const ATTRIBUTE_INTENT = "data-ai-intent";
+export const ATTRIBUTE_SENSITIVE = "data-ai-sensitive";
 
 /**
  * Gets the value of the data-ai-id attribute from an element
