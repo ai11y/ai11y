@@ -1,7 +1,7 @@
 ---
-"@ai11y/core": minor
-"@ai11y/agent": minor
-"@ai11y/react": minor
+"@ai11y/core": patch
+"@ai11y/agent": patch
+"@ai11y/react": patch
 ---
 
 Docs and demo improvements: naming (ai11y ≠ a11y), Describe/Plan/Act boundaries,
