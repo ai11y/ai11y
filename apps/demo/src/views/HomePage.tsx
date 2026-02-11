@@ -9,6 +9,7 @@ import { HighlightDemoWithSuggestions } from "@/components/Homepage/HighlightDem
 import { InputFillDemoWithSuggestions } from "@/components/Homepage/InputFillDemo";
 import { MultiStepDemo } from "@/components/Homepage/MultiStepDemo";
 import { NavigationDemo } from "@/components/Homepage/NavigationDemo";
+import { PermissionsDemoWithSuggestions } from "@/components/Homepage/PermissionsDemo";
 import { ScrollyHero } from "@/components/ScrollyHero";
 import { Footer } from "@/components/sections/Footer";
 import {
@@ -102,6 +103,23 @@ function FeatureSlides() {
 				markerIntent="Navigate to the Multi-step demo section"
 			>
 				<MultiStepDemo />
+			</FeatureSlide>
+
+			<FeatureSlide
+				id="feature-state"
+				direction="right"
+				emoji="🔐"
+				title="Custom State"
+				description="Give your agent knowledge beyond the DOM. Expose permissions, user context, and app-specific data so your agent can answer questions about capabilities and constraints."
+				code={demoCodeExamples.permissionsJavaScript}
+				reactCode={demoCodeExamples.permissions}
+				codeLanguage="html"
+				reactCodeLanguage="tsx"
+				markerId="slide_state"
+				markerLabel="Custom State Section"
+				markerIntent="Navigate to the Custom State feature section"
+			>
+				<PermissionsDemoWithSuggestions onSuggestion={setSuggestion} />
 			</FeatureSlide>
 		</div>
 	);

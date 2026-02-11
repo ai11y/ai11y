@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { setState } from "@ai11y/core";
+import { useEffect, useState } from "react";
 import { MarkerWithHighlight as Marker } from "@/components/Shared/MarkerWithHighlight";
 import { SuggestionSection } from "@/components/Shared/SuggestionSection";
 
@@ -9,6 +10,13 @@ export function ClickDemoWithSuggestions({
 }) {
 	const [counter, setCounter] = useState(0);
 	const [isActive, setIsActive] = useState(false);
+
+	useEffect(() => {
+		setState({
+			counterValue: counter,
+			counterIsActive: isActive,
+		});
+	}, [counter, isActive]);
 
 	return (
 		<div className="space-y-4">
@@ -81,6 +89,7 @@ export function ClickDemoWithSuggestions({
 					"increment counter 10 times",
 					"decrement counter",
 					"toggle status",
+					"what is the current counter value?",
 				]}
 				onSuggestion={onSuggestion}
 			/>

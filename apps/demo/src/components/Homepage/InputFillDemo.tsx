@@ -7,7 +7,6 @@ import {
 	SelectItem,
 	SelectTrigger,
 	SelectValue,
-	Textarea,
 } from "@ai11y/ui";
 import { useState } from "react";
 import { MarkerWithHighlight as Marker } from "@/components/Shared/MarkerWithHighlight";
@@ -19,8 +18,7 @@ export function InputFillDemoWithSuggestions({
 	onSuggestion: (s: string) => void;
 }) {
 	const [email, setEmail] = useState("");
-	const [name, setName] = useState("");
-	const [message, setMessage] = useState("");
+	const [password, setPassword] = useState("");
 	const [category, setCategory] = useState("");
 
 	return (
@@ -49,39 +47,20 @@ export function InputFillDemoWithSuggestions({
 				</Marker>
 
 				<Marker
-					id="fill_demo_name"
-					label="Name Input"
-					intent="Full name input field"
+					id="fill_demo_password"
+					label="Password Input"
+					intent="Password input field (value is redacted for privacy)"
 				>
-					<Field label="Full Name" name="name">
+					<Field label="Password" name="password">
 						<Input
-							type="text"
-							id="fill_demo_name"
-							value={name}
-							onChange={(e) => setName(e.target.value)}
-							placeholder="Enter your name"
+							type="password"
+							id="fill_demo_password"
+							value={password}
+							onChange={(e) => setPassword(e.target.value)}
+							placeholder="Enter your password"
 							className="w-full"
 							data-1p-ignore="true"
-							autoComplete="off"
-						/>
-					</Field>
-				</Marker>
-
-				<Marker
-					id="fill_demo_message"
-					label="Message Textarea"
-					intent="Message textarea field"
-				>
-					<Field label="Message" name="message">
-						<Textarea
-							id="fill_demo_message"
-							value={message}
-							onChange={(e) => setMessage(e.target.value)}
-							placeholder="Enter your message"
-							rows={3}
-							className="w-full"
-							data-1p-ignore="true"
-							autoComplete="off"
+							autoComplete="new-password"
 						/>
 					</Field>
 				</Marker>
@@ -113,12 +92,13 @@ export function InputFillDemoWithSuggestions({
 					</Field>
 				</Marker>
 			</Form>
+			<div className="text-xs text-muted-foreground italic">
+				Password values are automatically redacted for privacy
+			</div>
 			<SuggestionSection
 				suggestions={[
-					"what is the current value of the email field?",
 					"fill email with test@example.com",
-					"set name to John Doe",
-					"fill message with Hello, this is a test message!",
+					"what is the password value?",
 					"set category to feedback",
 				]}
 				onSuggestion={onSuggestion}

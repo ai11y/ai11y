@@ -11,7 +11,7 @@ interface ContextPanelProps {
 type SidebarTab = "ui-context" | "events";
 
 export function ContextPanel({ isOpen, onOpenChange }: ContextPanelProps) {
-	const { events, describe, state, lastError } = useAi11yContext();
+	const { events, describe, lastError } = useAi11yContext();
 	const [context, setContext] = useState(() => describe());
 	const [activeTab, setActiveTab] = useState<SidebarTab>("ui-context");
 	const [mounted, setMounted] = useState(false);
@@ -158,7 +158,9 @@ export function ContextPanel({ isOpen, onOpenChange }: ContextPanelProps) {
 						<div>
 							<div className="text-muted-foreground mb-1">State</div>
 							<pre className="p-2 rounded border border-border/50 bg-muted/30 text-[10px] text-foreground overflow-x-auto">
-								{Object.keys(state).length === 0 ? "{}" : formatPayload(state)}
+								{!context.state || Object.keys(context.state).length === 0
+									? "{}"
+									: formatPayload(context.state)}
 							</pre>
 						</div>
 
