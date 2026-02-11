@@ -42,7 +42,7 @@ export async function runLLMAgent(
 							: null,
 					}),
 				},
-				messages: messages?.slice(-10), // Send last 10 messages for context
+				messages: messages?.slice(-10),
 			}),
 		});
 

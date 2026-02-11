@@ -43,8 +43,10 @@ export function useChat({
 	const messageIdCounterRef = useRef(0);
 	const inputRef = useRef(input);
 	const isProcessingRef = useRef(isProcessing);
+	const messagesRef = useRef(messages);
 	inputRef.current = input;
 	isProcessingRef.current = isProcessing;
+	messagesRef.current = messages;
 
 	const handleSubmit = useCallback(
 		async (e: React.FormEvent) => {
@@ -70,15 +72,11 @@ export function useChat({
 				timestamp: Date.now(),
 			};
 
-			let updatedMessages: Message[] = [];
-			setMessages((prev) => {
-				updatedMessages = [...prev, userMsg];
-				return updatedMessages;
-			});
+			const updatedMessages = [...messagesRef.current, userMsg];
+			setMessages(updatedMessages);
 			queueMicrotask(() => onMessage?.());
 
 			try {
-				// Call onSubmit with the updated messages (outside of state setter)
 				const response = await onSubmit(userMessage, updatedMessages);
 
 				// Add agent reply only if we're still processing (prevent duplicates)
