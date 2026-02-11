@@ -1,6 +1,6 @@
 {
 	"name": "@ai11y/core",
-	"version": "0.0.0",
+	"version": "0.1.0",
 	"type": "module",
 	"main": "./dist/index.mjs",
 	"module": "./dist/index.mjs",
