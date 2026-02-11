@@ -3,7 +3,7 @@
 	"changelog": [
 		"@changesets/changelog-github",
 		{
-			"repo": "maerzhase3000/ai11y"
+			"repo": "maerzhase/ai11y"
 		}
 	],
 	"commit": false,
