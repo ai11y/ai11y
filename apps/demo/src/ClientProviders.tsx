@@ -1,6 +1,7 @@
 "use client";
 
 import type { AgentConfig } from "@ai11y/core";
+import { setRoute } from "@ai11y/core";
 import { Ai11yProvider } from "@ai11y/react";
 import { usePathname, useRouter } from "next/navigation";
 import { ThemeProvider } from "next-themes";
@@ -28,6 +29,10 @@ export function ClientProviders({ children }: { children: React.ReactNode }) {
 		},
 		[router, pathname],
 	);
+
+	React.useEffect(() => {
+		setRoute(pathname ?? "/");
+	}, [pathname]);
 
 	return (
 		<ThemeProvider
