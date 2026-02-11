@@ -1,4 +1,5 @@
 import {
+	ATTRIBUTE_SENSITIVE,
 	getAllMarkersSelector,
 	getMarkerId,
 	getMarkerIntent,
@@ -76,12 +77,67 @@ function findSelectElement(element: Element): HTMLSelectElement | null {
 }
 
 /**
+ * Checks if an input element contains sensitive data that should be redacted
+ * from the UI context (passwords, credit cards, hidden fields, etc.)
+ *
+ * @param inputElement - The input or textarea element to check
+ * @returns True if the input contains sensitive data
+ */
+function isSensitiveInput(
+	inputElement: HTMLInputElement | HTMLTextAreaElement,
+): boolean {
+	// Check input type
+	if (inputElement instanceof HTMLInputElement) {
+		const type = inputElement.type.toLowerCase();
+		if (type === "password" || type === "hidden") {
+			return true;
+		}
+	}
+
+	// Check autocomplete attribute for sensitive patterns
+	const autocomplete = inputElement.getAttribute("autocomplete")?.toLowerCase();
+	if (autocomplete) {
+		const sensitiveAutocompletePaths = [
+			"current-password",
+			"new-password",
+			"cc-number",
+			"cc-csc",
+			"cc-exp",
+			"cc-exp-month",
+			"cc-exp-year",
+		];
+		if (
+			sensitiveAutocompletePaths.some((path) => autocomplete.includes(path))
+		) {
+			return true;
+		}
+	}
+
+	// Check for custom sensitive marker attribute
+	if (inputElement.getAttribute(ATTRIBUTE_SENSITIVE) === "true") {
+		return true;
+	}
+
+	// Check parent element for sensitive marker attribute
+	const parent = inputElement.parentElement;
+	if (parent && parent.getAttribute(ATTRIBUTE_SENSITIVE) === "true") {
+		return true;
+	}
+
+	return false;
+}
+
+/**
  * Extracts the value from an input or textarea element
+ * Redacts sensitive values (passwords, credit cards, etc.) for privacy
  */
 function extractInputValue(element: Element): string | undefined {
 	const inputElement = findInputElement(element);
 	if (!inputElement) {
 		return undefined;
+	}
+	if (isSensitiveInput(inputElement)) {
+		return "[REDACTED]";
 	}
 	return inputElement.value;
 }

@@ -1,6 +1,6 @@
 import { useAi11yContext } from "@ai11y/react";
 import { Tabs, TabsList, TabsPanel, TabsTrigger } from "@ai11y/ui";
-import { X } from "lucide-react";
+import { ChevronDown, X } from "lucide-react";
 import { useEffect, useState } from "react";
 
 interface ContextPanelProps {
@@ -11,10 +11,11 @@ interface ContextPanelProps {
 type SidebarTab = "ui-context" | "events";
 
 export function ContextPanel({ isOpen, onOpenChange }: ContextPanelProps) {
-	const { events, describe, state, lastError } = useAi11yContext();
+	const { events, describe, lastError } = useAi11yContext();
 	const [context, setContext] = useState(() => describe());
 	const [activeTab, setActiveTab] = useState<SidebarTab>("ui-context");
 	const [mounted, setMounted] = useState(false);
+	const [rawPayloadOpen, setRawPayloadOpen] = useState(false);
 
 	useEffect(() => {
 		setMounted(true);
@@ -117,6 +118,36 @@ export function ContextPanel({ isOpen, onOpenChange }: ContextPanelProps) {
 				</TabsPanel>
 				<TabsPanel value="ui-context" className="p-4 min-h-0 overflow-y-auto">
 					<div className="space-y-3 text-xs">
+						<p className="text-muted-foreground mb-2">
+							This is what the model sees (sanitized, structured).
+						</p>
+
+						<div>
+							<button
+								type="button"
+								onClick={() => setRawPayloadOpen((v) => !v)}
+								className="flex items-center gap-1.5 w-full text-left font-medium text-foreground hover:text-primary transition-colors"
+							>
+								<ChevronDown
+									className={`h-4 w-4 shrink-0 transition-transform ${
+										rawPayloadOpen ? "rotate-0" : "-rotate-90"
+									}`}
+									aria-hidden
+								/>
+								Raw payload (context sent to planner)
+							</button>
+							{rawPayloadOpen && (
+								<pre className="mt-2 p-2 rounded border border-border/50 bg-muted/30 text-[10px] text-foreground overflow-x-auto whitespace-pre-wrap break-all">
+									{formatPayload({
+										route: context.route,
+										state: context.state,
+										inViewMarkerIds: context.inViewMarkerIds,
+										markers: context.markers,
+									})}
+								</pre>
+							)}
+						</div>
+
 						<div>
 							<div className="text-muted-foreground mb-1">Route</div>
 							<div className="font-mono p-2 rounded border border-border/50 bg-muted/30 text-foreground">
@@ -127,7 +158,9 @@ export function ContextPanel({ isOpen, onOpenChange }: ContextPanelProps) {
 						<div>
 							<div className="text-muted-foreground mb-1">State</div>
 							<pre className="p-2 rounded border border-border/50 bg-muted/30 text-[10px] text-foreground overflow-x-auto">
-								{Object.keys(state).length === 0 ? "{}" : formatPayload(state)}
+								{!context.state || Object.keys(context.state).length === 0
+									? "{}"
+									: formatPayload(context.state)}
 							</pre>
 						</div>
 

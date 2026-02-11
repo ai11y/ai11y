@@ -41,6 +41,7 @@ export { getMarkers } from "./marker.js";
 export {
 	clearContext,
 	clearEvents,
+	clearState,
 	getError,
 	getEvents,
 	getRoute,

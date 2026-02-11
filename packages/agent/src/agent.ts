@@ -281,10 +281,20 @@ ${contextPrompt}${recentMarkerContext}${markerMatchGuidance}
 
 Reading marker values:
 - You can read current values from markers in the context above
-- For input/textarea elements: The "Current value" field shows what's currently entered
+- For input/textarea elements: The "Current value" field shows what's currently entered (password fields show "[REDACTED]" for privacy)
 - For select elements: The "Available options" shows all choices, and "Selected" shows what's currently selected
 - When users ask "what's in [field]" or "what's the value of [marker]", read the value from the context and respond with it
 - You don't need a tool to read values - they're already in the context provided above
+
+Security rules:
+- NEVER fill password fields - if a user asks to fill a password, politely explain that sending passwords is a security risk and they should enter it manually
+- Password field values are redacted as "[REDACTED]" in the context for privacy protection
+
+Pronoun resolution:
+- When the user says "it", "that", "this", they're referring to the most recently discussed marker
+- Look at the recent conversation history (shown above as "Recently discussed") to identify which specific marker was discussed
+- Prefer specific interactive elements (buttons, inputs, links) over parent sections (those with "section" or "slide" in the label/id) when resolving pronouns
+- Example: If user asked about "password input" and then says "highlight it", use the password input marker (e.g. fill_demo_password), NOT the parent section marker (e.g. slide_fill_input)
 
 Navigation rules:
 - "navigate to [element]" = scroll to that element (use 'scroll' tool)

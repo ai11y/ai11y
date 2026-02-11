@@ -36,9 +36,39 @@ export function getRoute(): string | undefined {
 	return route;
 }
 
+/**
+ * Merges new state with existing state (similar to React's setState)
+ * Pass undefined to clear all state
+ *
+ * @param newState - Partial state to merge, or undefined to clear
+ *
+ * @example
+ * ```ts
+ * setState({ userId: '123' }); // Merges with existing state
+ * setState({ theme: 'dark' }); // Adds to state, keeps userId
+ * setState(undefined); // Clears all state
+ * ```
+ */
 export function setState(newState: Ai11yState | undefined): void {
-	state = newState;
-	notifyStoreChange("state", newState);
+	if (newState === undefined) {
+		state = undefined;
+	} else {
+		state = { ...(state || {}), ...newState };
+	}
+	notifyStoreChange("state", state);
+}
+
+/**
+ * Clears all application state
+ *
+ * @example
+ * ```ts
+ * clearState(); // Resets state to empty
+ * ```
+ */
+export function clearState(): void {
+	state = undefined;
+	notifyStoreChange("state", undefined);
 }
 
 export function getState(): Ai11yState | undefined {

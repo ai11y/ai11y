@@ -36,18 +36,30 @@ export function ConceptSection() {
 					<p className="text-lg text-muted-foreground leading-relaxed mb-6">
 						ai11y exposes this structure so agents can operate existing UIs.
 					</p>
-					<ul className="text-lg text-muted-foreground leading-relaxed mb-10 list-none space-y-2 pl-0">
-						<li>
-							<strong className="text-foreground">Describe</strong> — observe
-							the current UI context.
+					<ul className="mb-10 list-none space-y-4 pl-0 text-lg text-muted-foreground leading-relaxed">
+						<li className="space-y-1">
+							<p className="font-semibold text-foreground">
+								Describe — Observe the current UI context.
+							</p>
+							<p className="text-sm text-muted-foreground/80">
+								Runtime: local — DOM → structured context.
+							</p>
 						</li>
-						<li>
-							<strong className="text-foreground">Plan</strong> — get
-							instructions from the agent.
+						<li className="space-y-1">
+							<p className="font-semibold text-foreground">
+								Plan — Get instructions from the agent.
+							</p>
+							<p className="text-sm text-muted-foreground/80">
+								Runtime: model/server — context + intent → instructions.
+							</p>
 						</li>
-						<li>
-							<strong className="text-foreground">Act</strong> — perform actions
-							on the UI.
+						<li className="space-y-1">
+							<p className="font-semibold text-foreground">
+								Act — Perform actions on the UI.
+							</p>
+							<p className="text-sm text-muted-foreground/80">
+								Runtime: local — instructions → DOM actions.
+							</p>
 						</li>
 					</ul>
 
