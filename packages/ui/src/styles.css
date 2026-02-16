@@ -1,0 +1,134 @@
+@import "tailwindcss";
+
+/* Modern theme system with CSS variables (matching playground theme) */
+:root {
+	--background: 0 0% 100%;
+	--foreground: 0 0% 10%;
+	--card: 0 0% 100%;
+	--card-foreground: 0 0% 10%;
+	--popover: 0 0% 100%;
+	--popover-foreground: 0 0% 10%;
+	--primary: 11 100% 50%;
+	--primary-foreground: 0 0% 100%;
+	--secondary: 0 0% 95%;
+	--secondary-foreground: 0 0% 10%;
+	--muted: 0 0% 95%;
+	--muted-foreground: 0 0% 45%;
+	--accent: 0 0% 95%;
+	--accent-foreground: 0 0% 10%;
+	--destructive: 0 84.2% 60.2%;
+	--destructive-foreground: 0 0% 100%;
+	--border: 0 0% 85%;
+	--input: 0 0% 85%;
+	--ring: 11 100% 50%;
+	--radius: 0.5rem;
+	color-scheme: light;
+}
+
+.dark {
+	--background: 0 0% 4%;
+	--foreground: 0 0% 96%;
+	--card: 0 0% 7%;
+	--card-foreground: 0 0% 96%;
+	--popover: 0 0% 7%;
+	--popover-foreground: 0 0% 96%;
+	--primary: 11 100% 50%;
+	--primary-foreground: 0 0% 100%;
+	--secondary: 0 0% 12%;
+	--secondary-foreground: 0 0% 96%;
+	--muted: 0 0% 12%;
+	--muted-foreground: 0 0% 60%;
+	--accent: 0 0% 12%;
+	--accent-foreground: 0 0% 96%;
+	--destructive: 0 62.8% 50%;
+	--destructive-foreground: 0 0% 100%;
+	--border: 0 0% 18%;
+	--input: 0 0% 18%;
+	--ring: 11 100% 50%;
+	color-scheme: dark;
+}
+
+/* Tailwind theme configuration for custom colors */
+@theme inline {
+	--color-background: hsl(var(--background));
+	--color-foreground: hsl(var(--foreground));
+	--color-card: hsl(var(--card));
+	--color-card-foreground: hsl(var(--card-foreground));
+	--color-popover: hsl(var(--popover));
+	--color-popover-foreground: hsl(var(--popover-foreground));
+	--color-primary: hsl(var(--primary));
+	--color-primary-foreground: hsl(var(--primary-foreground));
+	--color-secondary: hsl(var(--secondary));
+	--color-secondary-foreground: hsl(var(--secondary-foreground));
+	--color-muted: hsl(var(--muted));
+	--color-muted-foreground: hsl(var(--muted-foreground));
+	--color-accent: hsl(var(--accent));
+	--color-accent-foreground: hsl(var(--accent-foreground));
+	--color-destructive: hsl(var(--destructive));
+	--color-destructive-foreground: hsl(var(--destructive-foreground));
+	--color-border: hsl(var(--border));
+	--color-input: hsl(var(--input));
+	--color-ring: hsl(var(--ring));
+}
+
+/* Text selection styling to match theme */
+::selection {
+	background-color: hsl(var(--primary) / 0.3);
+	color: hsl(var(--foreground));
+}
+
+::-moz-selection {
+	background-color: hsl(var(--primary) / 0.3);
+	color: hsl(var(--foreground));
+}
+
+/* Quest Assist Trigger Animations */
+@keyframes quest-pulse {
+	0%,
+	100% {
+		transform: scale(1);
+		opacity: 0.4;
+	}
+	50% {
+		transform: scale(1.15);
+		opacity: 0.2;
+	}
+}
+
+@keyframes quest-float {
+	0%,
+	100% {
+		transform: translateY(0) translateX(0);
+		opacity: 0.6;
+	}
+	25% {
+		transform: translateY(-4px) translateX(2px);
+		opacity: 0.8;
+	}
+	50% {
+		transform: translateY(-2px) translateX(-2px);
+		opacity: 0.4;
+	}
+	75% {
+		transform: translateY(-6px) translateX(1px);
+		opacity: 0.7;
+	}
+}
+
+@keyframes quest-rotate {
+	from {
+		transform: rotate(0deg);
+	}
+	to {
+		transform: rotate(360deg);
+	}
+}
+
+@keyframes quest-shimmer {
+	0% {
+		background-position: -200% center;
+	}
+	100% {
+		background-position: 200% center;
+	}
+}

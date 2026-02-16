@@ -1,0 +1,56 @@
+{
+	"$schema": "https://unpkg.com/syncpack@13.0.4/dist/schema.json",
+	"versionGroups": [
+		{
+			"label": "Use workspace protocol for local packages",
+			"dependencies": ["@ai11y/**"],
+			"dependencyTypes": ["dev", "peer", "prod"],
+			"pinVersion": "workspace:*"
+		}
+	],
+	"semverGroups": [
+		{
+			"label": "Use exact versions (no ranges)",
+			"range": "",
+			"dependencyTypes": ["dev", "peer", "prod"],
+			"dependencies": ["**"],
+			"packages": ["**"]
+		}
+	],
+	"sortFirst": [
+		"name",
+		"version",
+		"description",
+		"keywords",
+		"author",
+		"license",
+		"repository",
+		"bugs",
+		"homepage",
+		"private",
+		"type",
+		"main",
+		"module",
+		"types",
+		"exports",
+		"sideEffects",
+		"files",
+		"bin",
+		"scripts",
+		"dependencies",
+		"peerDependencies",
+		"devDependencies",
+		"peerDependenciesMeta",
+		"publishConfig",
+		"packageManager",
+		"engines"
+	],
+	"sortAz": [
+		"scripts",
+		"dependencies",
+		"devDependencies",
+		"peerDependencies",
+		"resolutions"
+	],
+	"indent": "\t"
+}

@@ -1,0 +1,96 @@
+import { Tabs, TabsList, TabsPanel, TabsTrigger } from "@ai11y/ui";
+import { MarkerWithHighlight as Marker } from "@/components/Shared/MarkerWithHighlight";
+import { ThemedSyntaxHighlighter } from "@/components/Shared/ThemedSyntaxHighlighter";
+import { useInView } from "@/hooks/useInView";
+import { demoCodeExamples } from "./demoCodeExamples";
+
+export function ConceptSection() {
+	const { ref, isInView } = useInView<HTMLElement>({
+		threshold: 0.15,
+		triggerOnce: true,
+	});
+
+	return (
+		<Marker
+			id="slide_concept"
+			label="Core Concept Section"
+			intent="Navigate to the Describe, Plan, Act concept section"
+		>
+			<section
+				id="feature-concept"
+				ref={ref}
+				className="min-h-screen flex items-center justify-center py-24 px-6 relative"
+			>
+				<div
+					className={`relative w-full max-w-2xl mx-auto text-left transition-all duration-700 ease-out ${
+						isInView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+					}`}
+				>
+					<h2 className="text-3xl md:text-4xl font-bold mb-6 text-foreground tracking-tight">
+						Describe → Plan → Act
+					</h2>
+					<p className="text-lg text-muted-foreground leading-relaxed mb-2">
+						The world runs on user interfaces. Interfaces solve problems by
+						making state, constraints, and actions explicit.
+					</p>
+					<p className="text-lg text-muted-foreground leading-relaxed mb-6">
+						ai11y exposes this structure so agents can operate existing UIs.
+					</p>
+					<ul className="mb-10 list-none space-y-4 pl-0 text-lg text-muted-foreground leading-relaxed">
+						<li className="space-y-1">
+							<p className="font-semibold text-foreground">
+								Describe — Observe the current UI context.
+							</p>
+							<p className="text-sm text-muted-foreground/80">
+								Runtime: local — DOM → structured context.
+							</p>
+						</li>
+						<li className="space-y-1">
+							<p className="font-semibold text-foreground">
+								Plan — Get instructions from the agent.
+							</p>
+							<p className="text-sm text-muted-foreground/80">
+								Runtime: model/server — context + intent → instructions.
+							</p>
+						</li>
+						<li className="space-y-1">
+							<p className="font-semibold text-foreground">
+								Act — Perform actions on the UI.
+							</p>
+							<p className="text-sm text-muted-foreground/80">
+								Runtime: local — instructions → DOM actions.
+							</p>
+						</li>
+					</ul>
+
+					<div className="rounded-2xl border border-border/50 bg-card/50 backdrop-blur-sm shadow-lg overflow-hidden">
+						<Tabs defaultValue="javascript">
+							<TabsList>
+								<TabsTrigger value="javascript">JavaScript</TabsTrigger>
+								<TabsTrigger value="react">React</TabsTrigger>
+							</TabsList>
+							<TabsPanel value="javascript" className="p-6">
+								<ThemedSyntaxHighlighter
+									language="ts"
+									PreTag="div"
+									codeTagProps={{ style: { background: "transparent" } }}
+								>
+									{demoCodeExamples.describePlanAct}
+								</ThemedSyntaxHighlighter>
+							</TabsPanel>
+							<TabsPanel value="react" className="p-6">
+								<ThemedSyntaxHighlighter
+									language="tsx"
+									PreTag="div"
+									codeTagProps={{ style: { background: "transparent" } }}
+								>
+									{demoCodeExamples.describePlanActReact}
+								</ThemedSyntaxHighlighter>
+							</TabsPanel>
+						</Tabs>
+					</div>
+				</div>
+			</section>
+		</Marker>
+	);
+}

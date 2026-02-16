@@ -1,0 +1,6 @@
+# For security reasons, only allow deps that have been published more than 1 day ago.
+minimumReleaseAge: 1440
+
+packages:
+  - "packages/*"
+  - "apps/*"
