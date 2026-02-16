@@ -120,7 +120,7 @@ use ARIA where present to enrich context (see Roadmap).
 
 ## Roadmap
 
-- Expose Tools for WebMCP via declartive API —
+- **Expose Tools for WebMCP** —
   [WebMCP added a proposal](https://github.com/webmachinelearning/webmcp/pull/76)
   for a declarative API for tools. We will support compiling tools for WebMCP
   via `ai11y` directly.
