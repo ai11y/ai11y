@@ -1,0 +1,46 @@
+{
+	"name": "ai11y",
+	"version": "0.0.0",
+	"author": "maerzhase3000",
+	"private": true,
+	"scripts": {
+		"build": "turbo run build",
+		"build:demo": "turbo run build --filter=./packages/* && pnpm run docs:build && turbo run build --filter=ai11y-demo",
+		"build:server": "turbo run build --filter=ai11y-server-app",
+		"changeset": "changeset",
+		"ci:publish": "pnpm build && pnpm publish -r --no-git-checks --access public",
+		"dev": "turbo run dev",
+		"docs:build": "typedoc",
+		"format": "biome check . && pnpm run format:md",
+		"format:fix": "biome check --write . && pnpm run format:md:fix && syncpack format",
+		"format:md": "pnpm exec prettier --check \"**/*.md\"",
+		"format:md:fix": "pnpm exec prettier --write \"**/*.md\"",
+		"lint": "biome lint . && pnpm run lint:md",
+		"lint:fix": "biome lint --write . && pnpm run lint:md:fix",
+		"lint:md": "pnpm exec prettier --check \"**/*.md\"",
+		"lint:md:fix": "pnpm exec prettier --write \"**/*.md\"",
+		"quality": "pnpm syncpack && pnpm lint && pnpm format",
+		"quality:fix": "pnpm syncpack:fix && pnpm lint:fix && pnpm format:fix",
+		"release": "pnpm build && changeset publish",
+		"syncpack": "syncpack lint",
+		"syncpack:fix": "syncpack fix-mismatches && syncpack format",
+		"syncpack:update": "syncpack update",
+		"version": "changeset version",
+		"watch": "turbo run watch"
+	},
+	"dependencies": {
+		"turbo": "2.7.1"
+	},
+	"devDependencies": {
+		"@biomejs/biome": "2.3.10",
+		"@changesets/changelog-github": "0.5.2",
+		"@changesets/cli": "2.29.8",
+		"prettier": "3.8.1",
+		"syncpack": "13.0.4",
+		"typedoc": "0.28.17"
+	},
+	"packageManager": "pnpm@9.0.0",
+	"engines": {
+		"node": ">=18"
+	}
+}
