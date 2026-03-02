@@ -46,7 +46,7 @@ interface Ai11yProviderProps {
 	 * The consumer is responsible for loading the WebMCP polyfill
 	 * (e.g. `import "@mcp-b/global/iife"`) before rendering the provider.
 	 *
-	 * @default true
+	 * @default false
 	 */
 	webmcp?: boolean;
 }
@@ -56,7 +56,7 @@ export function Ai11yProvider({
 	initialState = {},
 	onNavigate,
 	agentConfig,
-	webmcp = true,
+	webmcp = false,
 }: Ai11yProviderProps) {
 	const clientRef = useRef(
 		createClient({
