@@ -29,17 +29,18 @@
 		"watch": "turbo run watch"
 	},
 	"dependencies": {
-		"turbo": "2.7.1"
+		"turbo": "2.10.4"
 	},
 	"devDependencies": {
-		"@biomejs/biome": "2.3.10",
-		"@changesets/changelog-github": "0.5.2",
-		"@changesets/cli": "2.29.8",
-		"prettier": "3.8.1",
-		"syncpack": "13.0.4",
-		"typedoc": "0.28.17"
+		"@biomejs/biome": "2.5.3",
+		"@changesets/changelog-github": "0.7.0",
+		"@changesets/cli": "2.31.0",
+		"prettier": "3.9.4",
+		"syncpack": "15.3.2",
+		"typedoc": "0.28.20",
+		"typescript": "6.0.3"
 	},
-	"packageManager": "pnpm@9.0.0",
+	"packageManager": "pnpm@11.10.0",
 	"engines": {
 		"node": ">=18"
 	}

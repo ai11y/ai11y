@@ -23,17 +23,17 @@
 		"@ai11y/core": "workspace:*"
 	},
 	"peerDependencies": {
-		"react": "19.2.3",
-		"react-dom": "19.2.3"
+		"react": "19.2.7",
+		"react-dom": "19.2.7"
 	},
 	"devDependencies": {
-		"@tsconfig/create-react-app": "2.0.10",
-		"@types/react": "19.2.7",
+		"@tsconfig/create-react-app": "2.0.11",
+		"@types/react": "19.2.17",
 		"@types/react-dom": "19.2.3",
-		"react": "19.2.3",
-		"react-dom": "19.2.3",
-		"tsdown": "0.18.1",
-		"typescript": "5.9.3"
+		"react": "19.2.7",
+		"react-dom": "19.2.7",
+		"tsdown": "0.22.4",
+		"typescript": "6.0.3"
 	},
 	"publishConfig": {
 		"access": "public"
