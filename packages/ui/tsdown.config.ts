@@ -7,5 +7,7 @@ export default defineConfig({
 	dts: true,
 	clean: true,
 	outDir: "dist",
-	external: ["react", "react-dom", "react/jsx-runtime", "@base-ui/react"],
+	deps: {
+		neverBundle: ["react", "react-dom", "react/jsx-runtime", "@base-ui/react"],
+	},
 });

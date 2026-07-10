@@ -7,11 +7,13 @@ export default defineConfig({
 	dts: true,
 	clean: true,
 	outDir: "dist",
-	external: [
-		"react",
-		"react-dom",
-		"react/jsx-runtime",
-		"@ai11y/ui",
-		"@ai11y/core",
-	],
+	deps: {
+		neverBundle: [
+			"react",
+			"react-dom",
+			"react/jsx-runtime",
+			"@ai11y/ui",
+			"@ai11y/core",
+		],
+	},
 });
