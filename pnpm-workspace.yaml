@@ -1,0 +1,24 @@
+# For security reasons, only allow deps that have been published more than 1 day ago.
+minimumReleaseAge: 1440
+minimumReleaseAgeIgnoreMissingTime: false
+minimumReleaseAgeStrict: true
+
+# Reject packages whose publisher trust/provenance regressed, recheck the lockfile
+# on install, and prevent transitive dependencies from using arbitrary URLs or Git.
+trustPolicy: no-downgrade
+trustLockfile: false
+blockExoticSubdeps: true
+
+# Next.js currently resolves an older vulnerable PostCSS release transitively.
+overrides:
+  postcss: "8.5.16"
+
+# Dependency lifecycle scripts are denied unless explicitly reviewed and allowed.
+strictDepBuilds: true
+allowBuilds:
+  "esbuild@0.28.1": false
+  "sharp@0.34.5": false
+
+packages:
+  - "packages/*"
+  - "apps/*"

@@ -1,0 +1,299 @@
+import { useAi11yContext } from "@ai11y/react";
+import { Tabs, TabsList, TabsPanel, TabsTrigger } from "@ai11y/ui";
+import { ChevronDown, X } from "lucide-react";
+import { useEffect, useState } from "react";
+
+interface ContextPanelProps {
+	isOpen: boolean;
+	onOpenChange: (open: boolean) => void;
+}
+
+type SidebarTab = "ui-context" | "events";
+
+export function ContextPanel({ isOpen, onOpenChange }: ContextPanelProps) {
+	const { events, describe, lastError } = useAi11yContext();
+	const [context, setContext] = useState(() => describe());
+	const [activeTab, setActiveTab] = useState<SidebarTab>("ui-context");
+	const [mounted, setMounted] = useState(false);
+	const [rawPayloadOpen, setRawPayloadOpen] = useState(false);
+
+	useEffect(() => {
+		setMounted(true);
+	}, []);
+
+	useEffect(() => {
+		const updateContext = () => {
+			setContext(describe());
+		};
+		updateContext();
+		const interval = setInterval(updateContext, 1000);
+
+		return () => clearInterval(interval);
+	}, [describe]);
+
+	const formatTimestamp = (timestamp: number) => {
+		const date = new Date(timestamp);
+		const time = date.toLocaleTimeString("en-US", {
+			hour12: false,
+			hour: "2-digit",
+			minute: "2-digit",
+			second: "2-digit",
+		});
+		const ms = String(date.getMilliseconds()).padStart(3, "0");
+		return `${time}.${ms}`;
+	};
+
+	const formatPayload = (payload: unknown): string => {
+		if (payload === null || payload === undefined) {
+			return "null";
+		}
+		try {
+			return JSON.stringify(payload, null, 2);
+		} catch {
+			return String(payload);
+		}
+	};
+
+	return (
+		<div
+			className={`fixed top-0 right-0 h-full w-[var(--sidebar-width)] bg-background border-l border-border shadow-lg flex flex-col min-h-0 transform transition-transform duration-300 ease-in-out z-40 ${
+				isOpen ? "translate-x-0" : "translate-x-full"
+			}`}
+		>
+			<div className="flex-shrink-0 flex items-center justify-between border-b border-border px-4 py-2.5">
+				<h2 className="text-sm font-semibold text-foreground">
+					ai11y describe
+				</h2>
+				<button
+					type="button"
+					onClick={() => onOpenChange(false)}
+					className="p-1 rounded hover:bg-accent transition-colors -mr-1"
+					aria-label="Close context panel"
+				>
+					<X className="h-4 w-4 text-muted-foreground" aria-hidden />
+				</button>
+			</div>
+			<Tabs
+				value={activeTab}
+				onValueChange={(value) => setActiveTab(value as SidebarTab)}
+				className="flex-1 min-h-0 flex flex-col overflow-hidden"
+			>
+				<TabsList
+					className="border-b-0 bg-transparent flex-shrink-0"
+					aria-label="Sidebar panels"
+				>
+					<TabsTrigger value="ui-context">UI Context</TabsTrigger>
+					<TabsTrigger value="events">Events ({events.length})</TabsTrigger>
+				</TabsList>
+				<TabsPanel value="events" className="p-4 min-h-0 overflow-y-auto">
+					<div className="space-y-2">
+						{events.length === 0 ? (
+							<p className="text-xs text-muted-foreground">No events yet</p>
+						) : (
+							events
+								.slice()
+								.reverse()
+								.map((event) => (
+									<div
+										key={`${event.timestamp}-${event.type}`}
+										className="p-2 rounded border border-border/50 bg-muted/30 text-xs"
+									>
+										<div className="flex items-center justify-between mb-1">
+											<span className="font-medium text-foreground">
+												{event.type}
+											</span>
+											<span className="text-muted-foreground">
+												{formatTimestamp(event.timestamp)}
+											</span>
+										</div>
+										{event.payload != null ? (
+											<pre className="mt-1 text-[10px] text-muted-foreground overflow-x-auto">
+												{formatPayload(event.payload)}
+											</pre>
+										) : null}
+									</div>
+								))
+						)}
+					</div>
+				</TabsPanel>
+				<TabsPanel value="ui-context" className="p-4 min-h-0 overflow-y-auto">
+					<div className="space-y-3 text-xs">
+						<p className="text-muted-foreground mb-2">
+							This is what the model sees (sanitized, structured).
+						</p>
+
+						<div>
+							<button
+								type="button"
+								onClick={() => setRawPayloadOpen((v) => !v)}
+								className="flex items-center gap-1.5 w-full text-left font-medium text-foreground hover:text-primary transition-colors"
+							>
+								<ChevronDown
+									className={`h-4 w-4 shrink-0 transition-transform ${
+										rawPayloadOpen ? "rotate-0" : "-rotate-90"
+									}`}
+									aria-hidden
+								/>
+								Raw payload (context sent to planner)
+							</button>
+							{rawPayloadOpen && (
+								<pre className="mt-2 p-2 rounded border border-border/50 bg-muted/30 text-[10px] text-foreground overflow-x-auto whitespace-pre-wrap break-all">
+									{formatPayload({
+										route: context.route,
+										state: context.state,
+										inViewMarkerIds: context.inViewMarkerIds,
+										markers: context.markers,
+									})}
+								</pre>
+							)}
+						</div>
+
+						<div>
+							<div className="text-muted-foreground mb-1">Route</div>
+							<div className="font-mono p-2 rounded border border-border/50 bg-muted/30 text-foreground">
+								{context.route || "/"}
+							</div>
+						</div>
+
+						<div>
+							<div className="text-muted-foreground mb-1">State</div>
+							<pre className="p-2 rounded border border-border/50 bg-muted/30 text-[10px] text-foreground overflow-x-auto">
+								{!context.state || Object.keys(context.state).length === 0
+									? "{}"
+									: formatPayload(context.state)}
+							</pre>
+						</div>
+
+						{mounted &&
+							context.inViewMarkerIds &&
+							context.inViewMarkerIds.length > 0 && (
+								<div>
+									<div className="text-muted-foreground mb-1">
+										In-View Markers ({context.inViewMarkerIds.length})
+									</div>
+									<div className="p-2 rounded border border-primary/50 bg-primary/10">
+										<div className="flex flex-wrap gap-1">
+											{context.inViewMarkerIds.map((markerId) => (
+												<span
+													key={markerId}
+													className="inline-block px-2 py-0.5 rounded text-[10px] font-medium bg-primary/20 text-primary border border-primary/30"
+												>
+													{markerId}
+												</span>
+											))}
+										</div>
+									</div>
+								</div>
+							)}
+
+						<div>
+							<div className="text-muted-foreground mb-1">
+								Markers ({context.markers.length})
+							</div>
+							<div className="space-y-1">
+								{context.markers.length === 0 ? (
+									<p className="text-muted-foreground p-2 rounded border border-border/50 bg-muted/30">
+										No markers
+									</p>
+								) : (
+									context.markers.map((marker) => {
+										const isInView =
+											context.inViewMarkerIds?.includes(marker.id) ?? false;
+										return (
+											<div
+												key={marker.id}
+												className={`p-2 rounded border ${
+													isInView
+														? "border-primary/50 bg-primary/10"
+														: "border-border/50 bg-muted/30"
+												}`}
+											>
+												<div className="flex items-center justify-between mb-1">
+													<div className="font-medium text-foreground">
+														{marker.id}
+													</div>
+													{isInView && (
+														<span className="inline-block px-1.5 py-0.5 rounded text-[10px] font-medium bg-primary/20 text-primary border border-primary/30">
+															In View
+														</span>
+													)}
+												</div>
+												<div className="text-muted-foreground space-y-0.5">
+													<div>
+														<span className="font-medium">Type:</span>{" "}
+														<span className="font-mono text-foreground">
+															{marker.elementType}
+														</span>
+													</div>
+													<div>
+														<span className="font-medium">Label:</span>{" "}
+														{marker.label}
+													</div>
+													<div>
+														<span className="font-medium">Intent:</span>{" "}
+														{marker.intent}
+													</div>
+													{marker.value !== undefined && (
+														<div>
+															<span className="font-medium">Value:</span>{" "}
+															<span className="font-mono text-foreground break-all">
+																{marker.value === "" ? (
+																	<span className="italic">(empty)</span>
+																) : (
+																	marker.value
+																)}
+															</span>
+														</div>
+													)}
+													{marker.options !== undefined &&
+														marker.options.length > 0 && (
+															<div>
+																<span className="font-medium">Options:</span>{" "}
+																<span className="text-foreground">
+																	{marker.options
+																		.map((o) => `${o.label} (${o.value})`)
+																		.join(", ")}
+																</span>
+															</div>
+														)}
+													{marker.selectedOptions !== undefined &&
+														marker.selectedOptions.length > 0 && (
+															<div>
+																<span className="font-medium">Selected:</span>{" "}
+																<span className="text-foreground">
+																	{marker.selectedOptions.join(", ")}
+																</span>
+															</div>
+														)}
+												</div>
+											</div>
+										);
+									})
+								)}
+							</div>
+						</div>
+
+						{lastError && (
+							<div>
+								<div className="text-muted-foreground mb-1">Last Error</div>
+								<div className="p-2 rounded border border-destructive/50 bg-destructive/10">
+									<div className="font-medium text-destructive mb-1">
+										{lastError.error.message}
+									</div>
+									{lastError.meta && (
+										<pre className="text-[10px] text-muted-foreground mt-1">
+											{formatPayload(lastError.meta)}
+										</pre>
+									)}
+									<div className="text-[10px] text-muted-foreground mt-1">
+										{formatTimestamp(lastError.timestamp)}
+									</div>
+								</div>
+							</div>
+						)}
+					</div>
+				</TabsPanel>
+			</Tabs>
+		</div>
+	);
+}
