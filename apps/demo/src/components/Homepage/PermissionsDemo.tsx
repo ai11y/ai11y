@@ -20,8 +20,8 @@ export function PermissionsDemoWithSuggestions({
 	const permissions = PERMISSIONS;
 
 	useEffect(() => {
-		setState(permissions);
-	}, [permissions]);
+		setState(PERMISSIONS);
+	}, []);
 
 	return (
 		<div className="space-y-4">

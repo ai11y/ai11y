@@ -93,9 +93,9 @@ export function ContextPanel({ isOpen, onOpenChange }: ContextPanelProps) {
 							events
 								.slice()
 								.reverse()
-								.map((event, index) => (
+								.map((event) => (
 									<div
-										key={`${event.timestamp}-${index}`}
+										key={`${event.timestamp}-${event.type}`}
 										className="p-2 rounded border border-border/50 bg-muted/30 text-xs"
 									>
 										<div className="flex items-center justify-between mb-1">
