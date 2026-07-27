@@ -1,0 +1,41 @@
+{
+	"name": "@ai11y/react",
+	"version": "0.0.1",
+	"author": "maerzhase3000",
+	"type": "module",
+	"main": "./dist/index.mjs",
+	"module": "./dist/index.mjs",
+	"types": "./dist/index.d.mts",
+	"exports": {
+		".": {
+			"types": "./dist/index.d.mts",
+			"import": "./dist/index.mjs",
+			"default": "./dist/index.mjs"
+		}
+	},
+	"sideEffects": false,
+	"scripts": {
+		"build": "tsdown",
+		"dev": "tsdown --watch",
+		"watch": "tsdown --watch"
+	},
+	"dependencies": {
+		"@ai11y/core": "workspace:*"
+	},
+	"peerDependencies": {
+		"react": "19.2.7",
+		"react-dom": "19.2.7"
+	},
+	"devDependencies": {
+		"@tsconfig/create-react-app": "2.0.11",
+		"@types/react": "19.2.17",
+		"@types/react-dom": "19.2.3",
+		"react": "19.2.7",
+		"react-dom": "19.2.7",
+		"tsdown": "0.22.4",
+		"typescript": "6.0.3"
+	},
+	"publishConfig": {
+		"access": "public"
+	}
+}

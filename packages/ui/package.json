@@ -1,0 +1,46 @@
+{
+	"name": "@ai11y/ui",
+	"version": "0.0.0",
+	"author": "maerzhase3000",
+	"private": true,
+	"type": "module",
+	"main": "./dist/index.mjs",
+	"types": "./dist/index.d.mts",
+	"exports": {
+		".": {
+			"types": "./dist/index.d.mts",
+			"import": "./dist/index.mjs"
+		},
+		"./styles.css": "./src/styles.css"
+	},
+	"sideEffects": false,
+	"scripts": {
+		"build": "postcss ./src/styles.css -o ./dist/styles.css --minify && tsdown",
+		"dev": "tsdown --watch",
+		"watch": "tsdown --watch"
+	},
+	"dependencies": {
+		"@base-ui/react": "1.6.0",
+		"class-variance-authority": "0.7.1",
+		"clsx": "2.1.1",
+		"lucide-react": "0.563.0",
+		"tailwind-merge": "3.6.0"
+	},
+	"peerDependencies": {
+		"react": "19.2.7",
+		"react-dom": "19.2.7"
+	},
+	"devDependencies": {
+		"@tailwindcss/postcss": "4.3.2",
+		"@tsconfig/create-react-app": "2.0.11",
+		"@types/react": "19.2.17",
+		"@types/react-dom": "19.2.3",
+		"postcss": "8.5.16",
+		"postcss-cli": "11.0.1",
+		"react": "19.2.7",
+		"react-dom": "19.2.7",
+		"tailwindcss": "4.3.2",
+		"tsdown": "0.22.4",
+		"typescript": "6.0.3"
+	}
+}
