@@ -1,4 +1,5 @@
 import { Github } from "lucide-react";
+import { JevCopySwap } from "@/components/JevCopySwap";
 
 export function Footer() {
 	return (
@@ -8,7 +9,8 @@ export function Footer() {
 		>
 			<div className="max-w-6xl mx-auto text-center space-y-4">
 				<p className="text-muted-foreground">
-					Built with ai11y — A structured UI context layer for AI agents.
+					Built with ai11y — A structured UI context layer for{" "}
+					<JevCopySwap normal="AI agents" jev="JEV" />.
 				</p>
 				<div className="flex items-center justify-center gap-4 text-sm">
 					<a

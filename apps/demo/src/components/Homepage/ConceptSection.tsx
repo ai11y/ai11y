@@ -1,10 +1,13 @@
 import { Tabs, TabsList, TabsPanel, TabsTrigger } from "@ai11y/ui";
+import { JevCopySwap } from "@/components/JevCopySwap";
 import { MarkerWithHighlight as Marker } from "@/components/Shared/MarkerWithHighlight";
 import { ThemedSyntaxHighlighter } from "@/components/Shared/ThemedSyntaxHighlighter";
+import { useDemoUi } from "@/context/DemoUiContext";
 import { useInView } from "@/hooks/useInView";
 import { demoCodeExamples } from "./demoCodeExamples";
 
 export function ConceptSection() {
+	const { jevEnabled } = useDemoUi();
 	const { ref, isInView } = useInView<HTMLElement>({
 		threshold: 0.15,
 		triggerOnce: true,
@@ -34,7 +37,8 @@ export function ConceptSection() {
 						making state, constraints, and actions explicit.
 					</p>
 					<p className="text-lg text-muted-foreground leading-relaxed mb-6">
-						ai11y exposes this structure so agents can operate existing UIs.
+						ai11y exposes this structure so{" "}
+						<JevCopySwap normal="agents" jev="JEV" /> can operate existing UIs.
 					</p>
 					<ul className="mb-10 list-none space-y-4 pl-0 text-lg text-muted-foreground leading-relaxed">
 						<li className="space-y-1">
@@ -47,10 +51,12 @@ export function ConceptSection() {
 						</li>
 						<li className="space-y-1">
 							<p className="font-semibold text-foreground">
-								Plan — Get instructions from the agent.
+								Plan — Get instructions from{" "}
+								<JevCopySwap normal="the agent" jev="JEV" />.
 							</p>
 							<p className="text-sm text-muted-foreground/80">
-								Runtime: model/server — context + intent → instructions.
+								Runtime: <JevCopySwap normal="model" jev="JEV" />
+								/server — context + intent → instructions.
 							</p>
 						</li>
 						<li className="space-y-1">
@@ -75,7 +81,9 @@ export function ConceptSection() {
 									PreTag="div"
 									codeTagProps={{ style: { background: "transparent" } }}
 								>
-									{demoCodeExamples.describePlanAct}
+									{jevEnabled
+										? demoCodeExamples.describePlanActJev
+										: demoCodeExamples.describePlanAct}
 								</ThemedSyntaxHighlighter>
 							</TabsPanel>
 							<TabsPanel value="react" className="p-6">
@@ -84,7 +92,9 @@ export function ConceptSection() {
 									PreTag="div"
 									codeTagProps={{ style: { background: "transparent" } }}
 								>
-									{demoCodeExamples.describePlanActReact}
+									{jevEnabled
+										? demoCodeExamples.describePlanActReactJev
+										: demoCodeExamples.describePlanActReact}
 								</ThemedSyntaxHighlighter>
 							</TabsPanel>
 						</Tabs>

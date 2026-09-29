@@ -1,6 +1,7 @@
 import { Badge } from "@ai11y/ui";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
+import { JevCopySwap } from "@/components/JevCopySwap";
 import { MarkerWithHighlight as Marker } from "@/components/Shared/MarkerWithHighlight";
 import { SuggestionSection } from "@/components/Shared/SuggestionSection";
 
@@ -31,7 +32,8 @@ export function NavigationDemo({
 	return (
 		<div className="space-y-4">
 			<div className="text-sm text-muted-foreground mb-3">
-				Give your agent access to your routes:
+				Give <JevCopySwap normal="your agent" jev="JEV" /> access to your
+				routes:
 			</div>
 			<div className="space-y-2">
 				{routes.map((route) => {

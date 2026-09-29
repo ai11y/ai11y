@@ -1,5 +1,9 @@
 # @ai11y/agent
 
+The opt-in `@ai11y/agent/jev` adapter uses TypeSafe/JEV to select one bounded
+browser action at a time. Configure `TYPESAFE_API_KEY` and optionally
+`TYPESAFE_MODEL` on the server; actions execute in the browser.
+
 Runs the **plan** step for ai11y on the server (LLM + tools). Securely handles
 LLM API calls and provides extensible tool support.
 

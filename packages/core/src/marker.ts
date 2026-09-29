@@ -1,4 +1,5 @@
 import {
+	ATTRIBUTE_OPTIONS,
 	ATTRIBUTE_SENSITIVE,
 	getAllMarkersSelector,
 	getMarkerId,
@@ -15,6 +16,8 @@ export interface Marker {
 	label: string;
 	intent: string;
 	elementType: string;
+	/** Internal route exposed by an anchor marker */
+	route?: string;
 	/** Current value for input/textarea elements */
 	value?: string;
 	/** Selected value(s) for select elements */
@@ -151,6 +154,28 @@ function extractSelectData(element: Element): {
 } {
 	const selectElement = findSelectElement(element);
 	if (!selectElement) {
+		const serialized =
+			element.getAttribute(ATTRIBUTE_OPTIONS) ??
+			element
+				.querySelector(`[${ATTRIBUTE_OPTIONS}]`)
+				?.getAttribute(ATTRIBUTE_OPTIONS);
+		if (!serialized) return {};
+		try {
+			const parsed = JSON.parse(serialized) as unknown;
+			if (
+				Array.isArray(parsed) &&
+				parsed.every(
+					(option) =>
+						option &&
+						typeof option === "object" &&
+						typeof option.value === "string" &&
+						typeof option.label === "string",
+				)
+			)
+				return { options: parsed };
+		} catch {
+			// Ignore malformed optional metadata.
+		}
 		return {};
 	}
 
@@ -216,6 +241,10 @@ export function getMarkers(root?: Element): Marker[] {
 			intent,
 			elementType,
 		};
+		if (element instanceof HTMLAnchorElement) {
+			const href = element.getAttribute("href");
+			if (href?.startsWith("/")) marker.route = href;
+		}
 
 		const inputValue = extractInputValue(element);
 		if (inputValue !== undefined) {

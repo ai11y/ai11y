@@ -1,5 +1,8 @@
 # @ai11y/core
 
+The opt-in `@ai11y/core/jev` subpath returns bounded UI decisions rather than
+chat text. Keep the TypeSafe API key on the server endpoint.
+
 Framework-agnostic core. Your app exposes UI via markers (elements with
 `data-ai-id`, `data-ai-label`, optional `data-ai-intent`). The API is **describe
 → plan → act**.

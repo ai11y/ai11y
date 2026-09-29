@@ -9,6 +9,7 @@ import {
 	SelectValue,
 } from "@ai11y/ui";
 import { useState } from "react";
+import { JevCopySwap } from "@/components/JevCopySwap";
 import { MarkerWithHighlight as Marker } from "@/components/Shared/MarkerWithHighlight";
 import { SuggestionSection } from "@/components/Shared/SuggestionSection";
 
@@ -24,7 +25,8 @@ export function InputFillDemoWithSuggestions({
 	return (
 		<div className="space-y-4">
 			<div className="text-sm text-muted-foreground mb-3">
-				Give your agent the ability to read and fill forms:
+				Give <JevCopySwap normal="your agent" jev="JEV" /> the ability to read
+				and fill forms:
 			</div>
 			<Form>
 				<Marker

@@ -24,6 +24,7 @@ export function fillInputMarker(markerId: string, value: string): void {
 	// (in case Mark wraps the input in a container)
 	let inputElement: HTMLInputElement | HTMLTextAreaElement | null = null;
 	let selectElement: HTMLSelectElement | null = null;
+	let comboboxElement: HTMLElement | null = null;
 
 	if (
 		element instanceof HTMLInputElement ||
@@ -44,6 +45,10 @@ export function fillInputMarker(markerId: string, value: string): void {
 			const nestedSelect = element.querySelector("select");
 			if (nestedSelect instanceof HTMLSelectElement) {
 				selectElement = nestedSelect;
+			} else {
+				const nestedCombobox = element.querySelector('[role="combobox"]');
+				if (nestedCombobox instanceof HTMLElement)
+					comboboxElement = nestedCombobox;
 			}
 		}
 	}
@@ -51,7 +56,12 @@ export function fillInputMarker(markerId: string, value: string): void {
 	const isContentEditable =
 		element instanceof HTMLElement && element.contentEditable === "true";
 
-	if (!inputElement && !selectElement && !isContentEditable) {
+	if (
+		!inputElement &&
+		!selectElement &&
+		!comboboxElement &&
+		!isContentEditable
+	) {
 		console.warn(
 			`Marker ${markerId} does not contain an input, textarea, select, or contenteditable element`,
 		);
@@ -96,6 +106,22 @@ export function fillInputMarker(markerId: string, value: string): void {
 
 		// Focus the select element
 		selectElement.focus();
+	} else if (comboboxElement) {
+		comboboxElement.click();
+		requestAnimationFrame(() =>
+			requestAnimationFrame(() => {
+				const normalizedValue = value.trim().toLowerCase();
+				const option = Array.from(
+					document.querySelectorAll<HTMLElement>('[role="option"]'),
+				).find(
+					(candidate) =>
+						candidate.getAttribute("data-value") === value ||
+						candidate.textContent?.trim().toLowerCase() === normalizedValue,
+				);
+				if (option) option.click();
+				else console.warn(`Option ${value} not found for marker ${markerId}`);
+			}),
+		);
 	} else if (isContentEditable) {
 		// For contenteditable elements, set textContent and dispatch events
 		const editableElement = element as HTMLElement;

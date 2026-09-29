@@ -1,5 +1,6 @@
 import { setState } from "@ai11y/core";
 import { useEffect } from "react";
+import { JevCopySwap } from "@/components/JevCopySwap";
 import { MarkerWithHighlight as Marker } from "@/components/Shared/MarkerWithHighlight";
 import { SuggestionSection } from "@/components/Shared/SuggestionSection";
 
@@ -26,9 +27,8 @@ export function PermissionsDemoWithSuggestions({
 	return (
 		<div className="space-y-4">
 			<div className="text-sm text-muted-foreground mb-3">
-				Give your agent knowledge beyond the DOM. Expose permissions and
-				capabilities so your agent can answer questions about what actions are
-				allowed:
+				Give <JevCopySwap normal="your agent" jev="JEV" /> knowledge beyond the
+				DOM. Expose permissions and capabilities for safer decisions:
 			</div>
 
 			<div className="space-y-3 rounded-xl border border-border/50 bg-muted/30 p-4">

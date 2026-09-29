@@ -10,6 +10,7 @@ import { InputFillDemoWithSuggestions } from "@/components/Homepage/InputFillDem
 import { MultiStepDemo } from "@/components/Homepage/MultiStepDemo";
 import { NavigationDemo } from "@/components/Homepage/NavigationDemo";
 import { PermissionsDemoWithSuggestions } from "@/components/Homepage/PermissionsDemo";
+import { JevCopySwap } from "@/components/JevCopySwap";
 import { ScrollyHero } from "@/components/ScrollyHero";
 import { Footer } from "@/components/sections/Footer";
 import {
@@ -29,7 +30,13 @@ function FeatureSlides() {
 				direction="left"
 				emoji="🧭"
 				title="Navigation"
-				description="Give your agent the ability to navigate between pages from natural language. It can use your app's routing structure to take users where they ask."
+				description={
+					<>
+						Give <JevCopySwap normal="your agent" jev="JEV" /> the ability to
+						navigate between pages from natural language. It can use your
+						app&apos;s routing structure to take users where they ask.
+					</>
+				}
 				code={demoCodeExamples.navigationJavaScript}
 				reactCode={demoCodeExamples.navigation}
 				codeLanguage="html"
@@ -63,7 +70,14 @@ function FeatureSlides() {
 				direction="left"
 				emoji="👆"
 				title="Interaction"
-				description="Give your agent the ability to interact with buttons, links, and other UI elements. Users describe their intent in natural language; your agent takes the right action."
+				description={
+					<>
+						Give <JevCopySwap normal="your agent" jev="JEV" /> the ability to
+						interact with buttons, links, and other UI elements. Users describe
+						their intent; <JevCopySwap normal="your agent" jev="JEV" /> chooses
+						the right action.
+					</>
+				}
 				code={demoCodeExamples.clickJavaScript}
 				reactCode={demoCodeExamples.click}
 				codeLanguage="html"
@@ -80,7 +94,13 @@ function FeatureSlides() {
 				direction="right"
 				emoji="⌨️"
 				title="Form Awareness"
-				description="Give your agent the ability to read and fill form fields from natural language. It can read current values and fill inputs, textareas, and dropdowns. Emits native browser events for compatibility."
+				description={
+					<>
+						Give <JevCopySwap normal="your agent" jev="JEV" /> the ability to
+						read and fill form fields from natural language. It can read current
+						values and fill inputs, textareas, and dropdowns.
+					</>
+				}
 				code={demoCodeExamples.inputFillJavaScript}
 				reactCode={demoCodeExamples.inputFill}
 				codeLanguage="html"
@@ -97,7 +117,13 @@ function FeatureSlides() {
 				direction="left"
 				emoji="🔗"
 				title="Chained instructions"
-				description="Your agent can perform multi-step tasks inside one surface: fill, toggle, save. Instructions chain reliably across the same describe → plan → act loop."
+				description={
+					<>
+						<JevCopySwap normal="Your agent" jev="JEV" /> can perform multi-step
+						tasks inside one surface: fill, toggle, save. Instructions chain
+						reliably across the same describe → plan → act loop.
+					</>
+				}
 				markerId="slide_multistep"
 				markerLabel="Multi-step Section"
 				markerIntent="Navigate to the Multi-step demo section"
@@ -110,7 +136,13 @@ function FeatureSlides() {
 				direction="right"
 				emoji="🔐"
 				title="Custom State"
-				description="Give your agent knowledge beyond the DOM. Expose permissions, user context, and app-specific data so your agent can answer questions about capabilities and constraints."
+				description={
+					<>
+						Give <JevCopySwap normal="your agent" jev="JEV" /> knowledge beyond
+						the DOM. Expose permissions, user context, and app-specific data for
+						safer decisions.
+					</>
+				}
 				code={demoCodeExamples.permissionsJavaScript}
 				reactCode={demoCodeExamples.permissions}
 				codeLanguage="html"

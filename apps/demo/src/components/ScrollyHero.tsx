@@ -5,11 +5,19 @@ import {
 	plan,
 } from "@ai11y/core";
 import { useAi11yContext, useChat } from "@ai11y/react";
-import { ChevronDown, FileText, Github, Send } from "lucide-react";
+import { ChevronDown, FileText, Github } from "lucide-react";
 import Link from "next/link";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useContextDrawer } from "@/context/ContextDrawerContext";
 import { useDemoUi } from "@/context/DemoUiContext";
+import { JevCopySwap } from "./JevCopySwap";
+import {
+	ActionProgress,
+	InstructionComposer,
+	JevInstructionSurface,
+	JevModeFloatingTrigger,
+	JevModeTrigger,
+} from "./JevMode";
 import { MarkerWithHighlight as Marker } from "./Shared/MarkerWithHighlight";
 import { ThemeToggleButton } from "./Shared/ThemeToggleDynamic";
 import { SuggestionChip } from "./SuggestionChip";
@@ -20,12 +28,14 @@ interface ScrollyHeroProps {
 
 export function ScrollyHero({ onSuggestionReady }: ScrollyHeroProps = {}) {
 	const { describe, act, track, agentConfig } = useAi11yContext();
-	const { addHighlight } = useDemoUi();
+	const { addHighlight, jevEnabled, setJevDraft } = useDemoUi();
 	const { isOpen: isContextOpen, setIsOpen: setContextOpen } =
 		useContextDrawer();
 	const [isCompact, setIsCompact] = useState(false);
 	const [showMessages, setShowMessages] = useState(false);
 	const [hasNewMessages, setHasNewMessages] = useState(false);
+	const [llmProgress, setLlmProgress] = useState(-1);
+	const wasLlmProcessing = useRef(false);
 	const lastSeenCountRef = useRef(0);
 	const heroRef = useRef<HTMLElement>(null);
 	const [barBottom, setBarBottom] = useState<number | null>(null);
@@ -110,6 +120,7 @@ export function ScrollyHero({ onSuggestionReady }: ScrollyHeroProps = {}) {
 	};
 
 	const handleInstruction = (instruction: Instruction) => {
+		setLlmProgress(2);
 		act(instruction);
 		if (instruction.action === "highlight") {
 			addHighlight(instruction.id);
@@ -143,6 +154,19 @@ export function ScrollyHero({ onSuggestionReady }: ScrollyHeroProps = {}) {
 	});
 
 	useEffect(() => {
+		if (isProcessing) {
+			wasLlmProcessing.current = true;
+			setLlmProgress(1);
+			return;
+		}
+		if (!wasLlmProcessing.current) return;
+		wasLlmProcessing.current = false;
+		setLlmProgress(3);
+		const timeout = window.setTimeout(() => setLlmProgress(-1), 1200);
+		return () => window.clearTimeout(timeout);
+	}, [isProcessing]);
+
+	useEffect(() => {
 		if (showMessages) {
 			scrollMessagesToBottom();
 			setHasNewMessages(false);
@@ -161,6 +185,10 @@ export function ScrollyHero({ onSuggestionReady }: ScrollyHeroProps = {}) {
 
 	const handleSuggestion = useCallback(
 		(suggestion: string) => {
+			if (jevEnabled) {
+				setJevDraft(suggestion);
+				return;
+			}
 			setInput(suggestion);
 			// Only focus on devices with fine pointer (mouse/trackpad) to avoid opening the keyboard on touch devices
 			if (
@@ -170,7 +198,7 @@ export function ScrollyHero({ onSuggestionReady }: ScrollyHeroProps = {}) {
 				inputRef.current?.focus();
 			}
 		},
-		[setInput],
+		[jevEnabled, setInput, setJevDraft],
 	);
 
 	useEffect(() => {
@@ -241,7 +269,8 @@ export function ScrollyHero({ onSuggestionReady }: ScrollyHeroProps = {}) {
 								ai11y
 							</h1>
 							<span className="text-xs text-muted-foreground hidden sm:block">
-								A structured UI context layer for AI agents
+								A structured UI context layer for{" "}
+								<JevCopySwap normal="AI agents" jev="JEV" />
 							</span>
 						</div>
 					</div>
@@ -253,6 +282,7 @@ export function ScrollyHero({ onSuggestionReady }: ScrollyHeroProps = {}) {
 				className="min-h-screen flex items-center justify-center relative"
 			>
 				<div className="relative max-w-2xl w-full mx-auto px-6">
+					<JevModeTrigger />
 					<div className="relative rounded-3xl bg-background/80 backdrop-blur-xl border border-border/50 shadow-2xl overflow-hidden">
 						<div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-primary/5 pointer-events-none" />
 
@@ -268,83 +298,97 @@ export function ScrollyHero({ onSuggestionReady }: ScrollyHeroProps = {}) {
 							</Marker>
 
 							<div className="text-lg text-muted-foreground mb-6 text-center max-w-md mx-auto space-y-1">
-								<p>A structured UI context layer for AI agents.</p>
+								<p>
+									A structured UI context layer for{" "}
+									<JevCopySwap normal="AI agents" jev="JEV" />.
+								</p>
 								<p className="text-base">
 									Makes existing user interfaces understandable and actionable
-									for AI agents.
+									for <JevCopySwap normal="AI agents" jev="JEV" />.
 								</p>
 							</div>
 
-							<div
-								ref={messagesContainerRef}
-								className="mb-4 max-h-40 overflow-y-auto scrollbar-thin"
-							>
-								<div className="space-y-2">
-									{recentMessages.map((msg) => (
-										<div
-											key={msg.id}
-											className={`text-sm px-3 py-2 rounded-xl ${
-												msg.type === "user"
-													? "bg-primary text-primary-foreground ml-8"
-													: "bg-secondary text-secondary-foreground border border-border mr-8"
-											}`}
+							{jevEnabled ? (
+								<>
+									<JevInstructionSurface />
+									<p className="pt-3 text-center text-xs text-muted-foreground">
+										Try{" "}
+										<SuggestionChip
+											onClick={() => handleSuggestion("highlight title")}
 										>
-											{msg.content}
+											highlight title
+										</SuggestionChip>{" "}
+										or{" "}
+										<SuggestionChip
+											onClick={() => handleSuggestion("go to next section")}
+										>
+											go to next section
+										</SuggestionChip>
+									</p>
+								</>
+							) : (
+								<>
+									<div
+										ref={messagesContainerRef}
+										className="mb-4 max-h-40 overflow-y-auto scrollbar-thin"
+									>
+										<div className="space-y-2">
+											{recentMessages.map((msg) => (
+												<div
+													key={msg.id}
+													className={`text-sm px-3 py-2 rounded-xl ${
+														msg.type === "user"
+															? "bg-primary text-primary-foreground ml-8"
+															: "bg-secondary text-secondary-foreground border border-border mr-8"
+													}`}
+												>
+													{msg.content}
+												</div>
+											))}
+											{isProcessing && (
+												<div className="text-sm px-3 py-2 rounded-xl bg-secondary text-secondary-foreground border border-border mr-8">
+													<span className="inline-flex gap-1">
+														<span className="animate-bounce">·</span>
+														<span className="animate-bounce [animation-delay:0.1s]">
+															·
+														</span>
+														<span className="animate-bounce [animation-delay:0.2s]">
+															·
+														</span>
+													</span>
+												</div>
+											)}
 										</div>
-									))}
-									{isProcessing && (
-										<div className="text-sm px-3 py-2 rounded-xl bg-secondary text-secondary-foreground border border-border mr-8">
-											<span className="inline-flex gap-1">
-												<span className="animate-bounce">·</span>
-												<span className="animate-bounce [animation-delay:0.1s]">
-													·
-												</span>
-												<span className="animate-bounce [animation-delay:0.2s]">
-													·
-												</span>
-											</span>
-										</div>
-									)}
-								</div>
-							</div>
+									</div>
 
-							<form onSubmit={handleChatSubmit} className="relative">
-								<input
-									ref={isCompact ? undefined : inputRef}
-									type="text"
-									value={input}
-									onChange={(e) => setInput(e.target.value)}
-									placeholder="Ask me anything... try 'scroll to features'"
-									disabled={isProcessing}
-									className="w-full px-5 py-4 pr-14 text-base rounded-2xl border border-border/50 bg-background/50 text-foreground placeholder:text-muted-foreground/60 focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary/50 disabled:opacity-50 transition-all"
-								/>
-								<button
-									type="submit"
-									disabled={!input.trim() || isProcessing}
-									className={`absolute right-2 top-1/2 -translate-y-1/2 p-2.5 rounded-xl bg-primary text-primary-foreground transition-all ${
-										input.trim() && !isProcessing
-											? "opacity-100 hover:bg-primary/90 active:scale-95"
-											: "opacity-30 cursor-not-allowed"
-									}`}
-								>
-									<Send size={18} aria-hidden />
-								</button>
-							</form>
+									<InstructionComposer
+										value={input}
+										onChange={setInput}
+										onSubmit={handleChatSubmit}
+										disabled={isProcessing}
+										inputRef={isCompact ? undefined : inputRef}
+										placeholder="What do you want to do?"
+									/>
+									<div className="mt-3 px-0.5">
+										<ActionProgress progress={llmProgress} />
+									</div>
 
-							<p className="text-xs text-muted-foreground pt-2 text-center">
-								Try{" "}
-								<SuggestionChip
-									onClick={() => handleSuggestion("highlight title")}
-								>
-									highlight title
-								</SuggestionChip>{" "}
-								or{" "}
-								<SuggestionChip
-									onClick={() => handleSuggestion("go to next section")}
-								>
-									go to next section
-								</SuggestionChip>
-							</p>
+									<p className="text-xs text-muted-foreground pt-2 text-center">
+										Try{" "}
+										<SuggestionChip
+											onClick={() => handleSuggestion("highlight title")}
+										>
+											highlight title
+										</SuggestionChip>{" "}
+										or{" "}
+										<SuggestionChip
+											onClick={() => handleSuggestion("go to next section")}
+										>
+											go to next section
+										</SuggestionChip>
+									</p>
+								</>
+							)}
 						</div>
 					</div>
 
@@ -358,7 +402,7 @@ export function ScrollyHero({ onSuggestionReady }: ScrollyHeroProps = {}) {
 			</section>
 
 			<div
-				className={`fixed z-50 max-w-xl px-4 transition-all duration-300 ${
+				className={`fixed z-50 w-full max-w-xl px-4 transition-all duration-300 ${
 					isContextOpen
 						? "left-[calc(50%-10rem)] -translate-x-1/2"
 						: "left-1/2 -translate-x-1/2"
@@ -371,104 +415,108 @@ export function ScrollyHero({ onSuggestionReady }: ScrollyHeroProps = {}) {
 					bottom: barBottom !== null ? `${barBottom}px` : "1.5rem",
 				}}
 			>
-				<div className="relative rounded-2xl bg-background/95 backdrop-blur-xl border border-border/50 shadow-2xl overflow-hidden">
-					<div
-						className={`overflow-hidden transition-all duration-300 ${
-							showMessages ? "max-h-48" : "max-h-0"
-						}`}
-					>
-						<div
-							ref={compactMessagesContainerRef}
-							className="p-3 border-b border-border/30 max-h-48 overflow-y-auto scrollbar-thin"
-						>
-							<div className="space-y-2">
-								{recentMessages.map((msg) => (
-									<div
-										key={msg.id}
-										className={`text-sm px-3 py-2 rounded-sm ${
-											msg.type === "user"
-												? "bg-primary text-primary-foreground ml-6"
-												: "bg-secondary text-secondary-foreground border border-border mr-6"
-										}`}
-									>
-										{msg.content}
-									</div>
-								))}
-								{isProcessing && (
-									<div className="text-sm px-3 py-2 rounded-sm bg-secondary text-secondary-foreground border border-border mr-6">
-										<span className="inline-flex gap-1">
-											<span className="animate-bounce">·</span>
-											<span className="animate-bounce [animation-delay:0.1s]">
-												·
-											</span>
-											<span className="animate-bounce [animation-delay:0.2s]">
-												·
-											</span>
-										</span>
-									</div>
-								)}
-							</div>
-						</div>
-					</div>
-
-					<form
-						onSubmit={handleChatSubmit}
-						className="flex items-center gap-2 p-2"
-					>
-						<button
-							type="button"
-							onClick={() => setShowMessages((v) => !v)}
-							className={`relative p-2 rounded-sm transition-colors ${
-								showMessages
-									? "bg-primary/10 text-primary"
-									: "text-muted-foreground hover:text-foreground hover:bg-muted/50"
-							}`}
-							aria-label={
-								showMessages ? "Collapse messages" : "Expand messages"
-							}
-						>
-							<ChevronDown
-								size={18}
-								className={`transition-transform ${showMessages ? "rotate-180" : ""}`}
-								aria-hidden
+				<div className="relative">
+					<JevModeFloatingTrigger />
+					<div className="overflow-hidden rounded-2xl border border-border/50 bg-background/95 shadow-2xl backdrop-blur-xl">
+						{jevEnabled ? (
+							<JevInstructionSurface
+								compact
+								className="p-5 pt-7 sm:p-6 sm:pt-8"
 							/>
-							{hasNewMessages && (
-								<span
-									className="absolute top-0.5 right-0.5 z-10 w-2.5 h-2.5 rounded-full bg-primary ring-2 ring-background shrink-0"
-									aria-hidden
-								/>
-							)}
-						</button>
+						) : (
+							<>
+								<div
+									className={`overflow-hidden transition-all duration-300 ${
+										showMessages ? "max-h-48" : "max-h-0"
+									}`}
+								>
+									<div
+										ref={compactMessagesContainerRef}
+										className="max-h-48 overflow-y-auto border-b border-border/30 p-4 scrollbar-thin"
+									>
+										<div className="space-y-2">
+											{recentMessages.map((msg) => (
+												<div
+													key={msg.id}
+													className={`text-sm px-3 py-2 rounded-sm ${
+														msg.type === "user"
+															? "bg-primary text-primary-foreground ml-6"
+															: "bg-secondary text-secondary-foreground border border-border mr-6"
+													}`}
+												>
+													{msg.content}
+												</div>
+											))}
+											{isProcessing && (
+												<div className="text-sm px-3 py-2 rounded-sm bg-secondary text-secondary-foreground border border-border mr-6">
+													<span className="inline-flex gap-1">
+														<span className="animate-bounce">·</span>
+														<span className="animate-bounce [animation-delay:0.1s]">
+															·
+														</span>
+														<span className="animate-bounce [animation-delay:0.2s]">
+															·
+														</span>
+													</span>
+												</div>
+											)}
+										</div>
+									</div>
+								</div>
 
-						{!showMessages && lastMessage && (
-							<div className="hidden sm:block text-xs text-muted-foreground truncate max-w-32 px-2">
-								{lastMessage.content.slice(0, 40)}
-								{lastMessage.content.length > 40 ? "..." : ""}
-							</div>
+								<div className="space-y-3 p-4">
+									<div className="flex min-h-7 items-center gap-2">
+										<button
+											type="button"
+											onClick={() => setShowMessages((v) => !v)}
+											className={`relative rounded-md p-1.5 transition-colors ${
+												showMessages
+													? "bg-primary/10 text-primary"
+													: "text-muted-foreground hover:text-foreground hover:bg-muted/50"
+											}`}
+											aria-label={
+												showMessages ? "Collapse messages" : "Expand messages"
+											}
+										>
+											<ChevronDown
+												size={18}
+												className={`transition-transform ${showMessages ? "rotate-180" : ""}`}
+												aria-hidden
+											/>
+											{hasNewMessages && (
+												<span
+													className="absolute top-0.5 right-0.5 z-10 w-2.5 h-2.5 rounded-full bg-primary ring-2 ring-background shrink-0"
+													aria-hidden
+												/>
+											)}
+										</button>
+
+										<span className="text-xs font-medium text-muted-foreground">
+											History
+										</span>
+										{!showMessages && lastMessage && (
+											<div className="ml-auto hidden max-w-48 truncate px-2 text-xs text-muted-foreground sm:block">
+												{lastMessage.content.slice(0, 40)}
+												{lastMessage.content.length > 40 ? "..." : ""}
+											</div>
+										)}
+									</div>
+									<InstructionComposer
+										value={input}
+										onChange={setInput}
+										onSubmit={handleChatSubmit}
+										disabled={isProcessing}
+										compact
+										inputRef={isCompact ? inputRef : undefined}
+										placeholder="What do you want to do?"
+									/>
+									<div className="px-0.5">
+										<ActionProgress progress={llmProgress} />
+									</div>
+								</div>
+							</>
 						)}
-
-						<input
-							ref={isCompact ? inputRef : undefined}
-							type="text"
-							value={input}
-							onChange={(e) => setInput(e.target.value)}
-							placeholder="Ask anything..."
-							disabled={isProcessing}
-							className="flex-1 px-4 py-2.5 text-base rounded-xl border border-border/50 bg-muted/30 text-foreground placeholder:text-muted-foreground/60 focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary/50 disabled:opacity-50 transition-all"
-						/>
-
-						<button
-							type="submit"
-							disabled={!input.trim() || isProcessing}
-							className={`p-2.5 rounded-xl bg-primary text-primary-foreground transition-all ${
-								input.trim() && !isProcessing
-									? "opacity-100 hover:bg-primary/90 active:scale-95"
-									: "opacity-30 cursor-not-allowed"
-							}`}
-						>
-							<Send size={16} aria-hidden />
-						</button>
-					</form>
+					</div>
 				</div>
 			</div>
 		</>

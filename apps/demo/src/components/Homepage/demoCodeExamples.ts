@@ -29,6 +29,39 @@ function Chat() {
   return (/* ... input and messages ... */);
 }`,
 
+	describePlanActJev: `import { createClient } from "@ai11y/core";
+import { plan } from "@ai11y/core/jev";
+
+const client = createClient();
+const decision = await plan(
+  {
+    input: "highlight the save button",
+    context: client.describe(),
+  },
+  { apiEndpoint: "/api/ai11y/jev" },
+);
+
+for (const instruction of decision.instructions ?? []) {
+  client.act(instruction);
+}`,
+
+	describePlanActReactJev: `import { useJev } from "@ai11y/react";
+
+function JevControl() {
+  const { run, status, isRunning } = useJev({
+    apiEndpoint: "/api/ai11y/jev",
+  });
+
+  return (
+    <button
+      disabled={isRunning}
+      onClick={() => run("highlight the save button")}
+    >
+      {status.state === "completed" ? "Done" : "Run with JEV"}
+    </button>
+  );
+}`,
+
 	navigationJavaScript: `<a
   href="/billing"
   data-ai-id="nav_route_billing"

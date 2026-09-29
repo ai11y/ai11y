@@ -1,5 +1,6 @@
 import { setState } from "@ai11y/core";
 import { useEffect, useState } from "react";
+import { JevCopySwap } from "@/components/JevCopySwap";
 import { MarkerWithHighlight as Marker } from "@/components/Shared/MarkerWithHighlight";
 import { SuggestionSection } from "@/components/Shared/SuggestionSection";
 
@@ -21,7 +22,8 @@ export function ClickDemoWithSuggestions({
 	return (
 		<div className="space-y-4">
 			<div className="text-sm text-muted-foreground mb-3">
-				Give your agent the ability to interact with buttons:
+				Give <JevCopySwap normal="your agent" jev="JEV" /> the ability to
+				interact with buttons:
 			</div>
 			<div className="flex items-center justify-between p-4 rounded-xl bg-muted/30 border border-border/50">
 				<div>

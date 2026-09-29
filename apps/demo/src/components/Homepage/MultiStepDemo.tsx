@@ -3,6 +3,7 @@
 import type { Instruction } from "@ai11y/core";
 import { useAi11yContext } from "@ai11y/react";
 import { useState } from "react";
+import { JevCopySwap } from "@/components/JevCopySwap";
 import { MarkerWithHighlight as Marker } from "@/components/Shared/MarkerWithHighlight";
 import { useDemoUi } from "@/context/DemoUiContext";
 
@@ -164,8 +165,9 @@ export function MultiStepDemo() {
 			</div>
 
 			<div className="text-sm text-muted-foreground">
-				Chained instructions inside this section: fill, toggle, save. Your agent
-				can perform multi-step tasks reliably.
+				Chained instructions inside this section: fill, toggle, save.{" "}
+				<JevCopySwap normal="Your agent" jev="JEV" /> can perform multi-step
+				tasks reliably.
 			</div>
 			<button
 				type="button"

@@ -2,6 +2,7 @@ import { useAi11yContext } from "@ai11y/react";
 import { Tabs, TabsList, TabsPanel, TabsTrigger } from "@ai11y/ui";
 import { ChevronDown, X } from "lucide-react";
 import { useEffect, useState } from "react";
+import { JevCopySwap } from "@/components/JevCopySwap";
 
 interface ContextPanelProps {
 	isOpen: boolean;
@@ -119,7 +120,8 @@ export function ContextPanel({ isOpen, onOpenChange }: ContextPanelProps) {
 				<TabsPanel value="ui-context" className="p-4 min-h-0 overflow-y-auto">
 					<div className="space-y-3 text-xs">
 						<p className="text-muted-foreground mb-2">
-							This is what the model sees (sanitized, structured).
+							This is what <JevCopySwap normal="the model" jev="JEV" /> sees
+							(sanitized, structured).
 						</p>
 
 						<div>

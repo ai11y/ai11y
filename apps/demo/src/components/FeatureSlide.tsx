@@ -6,7 +6,7 @@ import { MarkerWithHighlight as Marker } from "./Shared/MarkerWithHighlight";
 interface FeatureSlideProps {
 	direction: "left" | "right";
 	title: string;
-	description: string;
+	description: ReactNode;
 	emoji: string;
 	children: ReactNode;
 	code?: string;

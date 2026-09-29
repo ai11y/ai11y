@@ -10,6 +10,11 @@
 			"types": "./dist/index.d.mts",
 			"import": "./dist/index.mjs",
 			"default": "./dist/index.mjs"
+		},
+		"./jev": {
+			"types": "./dist/jev/index.d.mts",
+			"import": "./dist/jev/index.mjs",
+			"default": "./dist/jev/index.mjs"
 		}
 	},
 	"scripts": {

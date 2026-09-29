@@ -28,8 +28,39 @@ const selectTriggerVariants = cva(
 export interface SelectProps
 	extends React.ComponentProps<typeof SelectPrimitive.Root> {}
 
+function collectOptions(children: React.ReactNode) {
+	const options: Array<{ value: string; label: string }> = [];
+	React.Children.forEach(children, (child) => {
+		if (!React.isValidElement(child)) return;
+		if (child.type === SelectItem) {
+			const props = child.props as SelectItemProps;
+			if (typeof props.value === "string")
+				options.push({
+					value: props.value,
+					label:
+						typeof props.children === "string" ? props.children : props.value,
+				});
+		}
+		const nested = (child.props as { children?: React.ReactNode }).children;
+		if (nested) options.push(...collectOptions(nested));
+	});
+	return options;
+}
+
 export function Select({ children, ...props }: SelectProps) {
-	return <SelectPrimitive.Root {...props}>{children}</SelectPrimitive.Root>;
+	const options = collectOptions(children);
+	return (
+		<SelectPrimitive.Root {...props}>
+			{children}
+			{options.length > 0 ? (
+				<span
+					hidden
+					aria-hidden="true"
+					data-ai-options={JSON.stringify(options)}
+				/>
+			) : null}
+		</SelectPrimitive.Root>
+	);
 }
 
 export interface SelectTriggerProps

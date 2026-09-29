@@ -12,13 +12,19 @@
 		"./fastify": {
 			"types": "./dist/fastify.d.mts",
 			"import": "./dist/fastify.mjs"
+		},
+		"./jev": {
+			"types": "./dist/jev/index.d.mts",
+			"import": "./dist/jev/index.mjs"
 		}
 	},
 	"scripts": {
 		"build": "tsdown",
-		"watch": "tsdown --watch"
+		"watch": "tsdown --watch",
+		"test": "tsx --test src/jev/*.test.ts"
 	},
 	"dependencies": {
+		"@typesafe-ai/sdk": "0.6.0",
 		"@ai11y/core": "workspace:*",
 		"@langchain/core": "1.2.2",
 		"@langchain/openai": "1.5.4",

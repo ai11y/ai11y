@@ -1,3 +1,5 @@
+import type { JevRunStatus } from "@ai11y/react";
+import { useJev } from "@ai11y/react";
 import type React from "react";
 import {
 	createContext,
@@ -9,6 +11,14 @@ import {
 } from "react";
 
 export interface DemoUiContextValue {
+	jevEnabled: boolean;
+	setJevEnabled: (enabled: boolean) => void;
+	jevStatus: JevRunStatus;
+	isJevRunning: boolean;
+	jevDraft: string;
+	setJevDraft: (value: string) => void;
+	runJev: (input: string) => Promise<void>;
+	cancelJev: () => void;
 	isPanelOpen: boolean;
 	setIsPanelOpen: (open: boolean) => void;
 	pendingMessage: string | null;
@@ -38,6 +48,8 @@ export function DemoUiProvider({
 	children,
 	highlightWrapper,
 }: DemoUiProviderProps) {
+	const [jevEnabled, setJevEnabledState] = useState(false);
+	const [jevDraft, setJevDraft] = useState("");
 	const [isPanelOpen, setIsPanelOpen] = useState(false);
 	const [pendingMessage, setPendingMessage] = useState<string | null>(null);
 	const [highlightedMarkers, setHighlightedMarkers] = useState<Set<string>>(
@@ -74,6 +86,39 @@ export function DemoUiProvider({
 
 		highlightTimeoutRef.current.set(markerId, timeout);
 	}, []);
+	const handleJevInstruction = useCallback(
+		(instruction: import("@ai11y/core").Instruction) => {
+			if (instruction.action === "highlight") addHighlight(instruction.id);
+		},
+		[addHighlight],
+	);
+	const {
+		status: jevStatus,
+		isRunning: isJevRunning,
+		run: runJev,
+		cancel: cancelJev,
+		reset: resetJev,
+	} = useJev({
+		apiEndpoint: "/api/ai11y/jev",
+		onInstruction: handleJevInstruction,
+	});
+	const setJevEnabled = useCallback(
+		(enabled: boolean) => {
+			if (!enabled) {
+				cancelJev();
+				resetJev();
+			}
+			setJevEnabledState(enabled);
+		},
+		[cancelJev, resetJev],
+	);
+
+	useEffect(() => {
+		document.documentElement.dataset.jevMode = String(jevEnabled);
+		return () => {
+			delete document.documentElement.dataset.jevMode;
+		};
+	}, [jevEnabled]);
 
 	const openPanelWithMessage = useCallback((message: string) => {
 		setPendingMessage(message);
@@ -119,6 +164,14 @@ export function DemoUiProvider({
 	}, []);
 
 	const value: DemoUiContextValue = {
+		jevEnabled,
+		setJevEnabled,
+		jevStatus,
+		isJevRunning,
+		jevDraft,
+		setJevDraft,
+		runJev,
+		cancelJev,
 		isPanelOpen,
 		setIsPanelOpen: handleSetIsPanelOpen,
 		pendingMessage,

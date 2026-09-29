@@ -23,11 +23,9 @@ export function ClientProviders({ children }: { children: React.ReactNode }) {
 
 	const handleNavigate = React.useCallback(
 		(route: string) => {
-			if (route !== pathname) {
-				router.push(route, { scroll: false });
-			}
+			router.push(route, { scroll: false });
 		},
-		[router, pathname],
+		[router],
 	);
 
 	React.useEffect(() => {
