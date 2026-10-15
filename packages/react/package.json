@@ -1,6 +1,6 @@
 {
 	"name": "@ai11y/react",
-	"version": "0.0.1",
+	"version": "0.1.0",
 	"author": "maerzhase3000",
 	"type": "module",
 	"main": "./dist/index.mjs",

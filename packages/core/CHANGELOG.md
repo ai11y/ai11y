@@ -1,5 +1,13 @@
 # @ai11y/core
 
+## 0.1.0
+
+### Minor Changes
+
+- [`b025e08`](https://github.com/ai11y/ai11y/commit/b025e087460e3189de4b8fd5fe69defbc57bf831)
+  Thanks [@maerzhase](https://github.com/maerzhase)! - Add opt-in JEV decision
+  planning while keeping existing conversational APIs compatible.
+
 ## 0.0.1
 
 ### Patch Changes
